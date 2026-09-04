@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LazyDev — Marketing & docs site
 
-## Getting Started
+The introduction and documentation website for **LazyDev**, an AI-native
+autonomous CI engineering assistant that monitors GitHub issues, generates
+validated code fixes, and opens pull requests.
 
-First, run the development server:
+This is a **separate project** from the main app repo
+([`lazy-issue-resolver`](https://github.com/FutureMindsDev/lazy-issue-resolver)).
+It is a static Next.js site that explains what LazyDev does and helps visitors
+choose between two deployment options:
+
+- **Self-host** — free, MIT-licensed, you run the full Docker stack.
+- **Hosted** — we run it for you; you just install the GitHub App.
+
+## Tech stack
+
+- [Next.js](https://nextjs.org) 16 (App Router)
+- [Tailwind CSS](https://tailwindcss.com) v4
+- TypeScript
+- Light/dark theme toggle (persisted to `localStorage`, no flash on load)
+
+## Pages
+
+| Route            | Purpose                                                      |
+| ---------------- | ------------------------------------------------------------ |
+| `/`              | Landing — hero, what-is, pipeline overview, option chooser, features |
+| `/how-it-works`  | Detailed five-stage pipeline walkthrough + MCP tools         |
+| `/get-started`   | Side-by-side comparison of self-host vs hosted               |
+| `/self-host`     | Condensed self-host guide (mirrors the main repo's README)   |
+| `/hosted`        | Hosted info, what we run, limits, signup CTA                 |
+
+## Local development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm run start
+```
 
-## Learn More
+## Deploy
 
-To learn more about Next.js, take a look at the following resources:
+### Vercel
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Import the repo at [vercel.com/new](https://vercel.com/new). The included
+`vercel.json` sets the framework to `nextjs` — no other config needed.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Netlify
 
-## Deploy on Vercel
+Connect the repo in the Netlify dashboard. The included `netlify.toml` sets the
+build command (`npm run build`), publish directory (`.next`), and the
+`@netlify/plugin-nextjs` plugin.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Project structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+src/
+├── app/
+│   ├── layout.tsx          # Root layout: Navbar + Footer + theme init
+│   ├── page.tsx            # Landing page
+│   ├── globals.css         # Tailwind + theme tokens + dark mode variant
+│   ├── how-it-works/page.tsx
+│   ├── get-started/page.tsx
+│   ├── self-host/page.tsx
+│   └── hosted/page.tsx
+└── components/
+    ├── Navbar.tsx
+    ├── Footer.tsx
+    └── ThemeToggle.tsx     # Client component for light/dark toggle
+```
+
+## License
+
+MIT — same as the main LazyDev project.

@@ -1,26 +1,123 @@
 @import "tailwindcss";
 
+/* Class-based dark mode (Tailwind v4) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ============================================================
+   LazyDev cozy-core theme
+   Warm golden-hour palette: terracotta, amber, deep violet.
+   Soft, rounded, gentle gradients. Serene & effortless.
+   ============================================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Warm cream background, soft not stark white */
+  --background: #fdf6ec;
+  --foreground: #3b2a2a;
+
+  /* Muted surfaces — warm sand */
+  --muted: #f3e7d3;
+  --muted-foreground: #8a6f64;
+
+  /* Borders — soft terracotta-tinted */
+  --border: #e8d5bd;
+  --card: #fffaf2;
+
+  /* Accent — terracotta (primary warm action color) */
+  --accent: #c8553d;
+  --accent-foreground: #fffaf2;
+
+  /* Secondary accents exposed as utilities */
+  --amber: #e09f3e;
+  --violet: #5e2b79;
+  --violet-soft: #8b5fa6;
+  --terracotta: #c8553d;
+  --cream: #fdf6ec;
+}
+
+.dark {
+  /* Deep cozy night — warm dark, not cold black */
+  --background: #1a1413;
+  --foreground: #f0e6d8;
+
+  --muted: #2a201d;
+  --muted-foreground: #b39a8a;
+
+  --border: #3a2d2a;
+  --card: #221a18;
+
+  --accent: #e09f3e;
+  --accent-foreground: #1a1413;
+
+  --amber: #e09f3e;
+  --violet: #a87bc4;
+  --violet-soft: #c9a7e0;
+  --terracotta: #d96b4f;
+  --cream: #1a1413;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-card: var(--card);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Cozy palette exposed to Tailwind utilities */
+  --color-amber: var(--amber);
+  --color-violet: var(--violet);
+  --color-violet-soft: var(--violet-soft);
+  --color-terracotta: var(--terracotta);
+  --color-cream: var(--cream);
+
+  --font-sans: var(--font-outfit), var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  --font-display: var(--font-outfit), var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  /* Subtle warm gradient wash at the top of the page */
+  background-image: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--amber) 6%, transparent) 0%,
+    transparent 320px
+  );
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+html {
+  color-scheme: light;
+}
+html.dark {
+  color-scheme: dark;
+}
+
+/* Soft, rounded scrollbars to match the cozy aesthetic */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+::-webkit-scrollbar-track {
+  background: var(--muted);
+}
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--terracotta) 50%, var(--muted));
+  border-radius: 9999px;
+  border: 3px solid var(--muted);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--terracotta);
+}
+
+/* Gentle focus rings in the warm accent */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
