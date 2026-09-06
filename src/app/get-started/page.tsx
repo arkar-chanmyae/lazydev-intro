@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { FadeIn, Reveal, Stagger, StaggerItem } from "@/components/Animate";
 
 export const metadata: Metadata = {
   title: "Get started",
@@ -58,16 +59,16 @@ const comparison = [
 export default function GetStarted() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6">
-      <div className="text-center">
+      <FadeIn className="text-center">
         <h1 className="text-4xl font-bold tracking-tight">Get started</h1>
         <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
           Two ways to use LazyDev. Pick the one that fits your team — both give
           you the same multi-agent pipeline and the same PR output.
         </p>
-      </div>
+      </FadeIn>
 
       {/* Comparison table */}
-      <div className="mt-12 overflow-hidden rounded-3xl border border-border shadow-sm">
+      <Reveal delay={0.1} className="mt-12 overflow-hidden rounded-3xl border border-border shadow-sm">
         <table className="w-full text-left text-sm">
           <thead className="bg-muted">
             <tr>
@@ -96,12 +97,12 @@ export default function GetStarted() {
             ))}
           </tbody>
         </table>
-      </div>
+      </Reveal>
 
       {/* Decision cards */}
-      <div className="mt-12 grid gap-6 md:grid-cols-2">
+      <Stagger className="mt-12 grid gap-6 md:grid-cols-2">
         {/* Self-host */}
-        <div className="flex flex-col rounded-3xl border border-border bg-card p-8 shadow-sm">
+        <StaggerItem className="flex flex-col rounded-3xl border border-border bg-card p-8 shadow-sm">
           <h2 className="text-xl font-bold">Choose self-host if…</h2>
           <ul className="mt-4 space-y-3 text-sm text-muted-foreground">
             <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-amber" />You want it free and have a server to spare</li>
@@ -125,10 +126,10 @@ export default function GetStarted() {
               View the repos
             </a>
           </div>
-        </div>
+        </StaggerItem>
 
         {/* Hosted */}
-        <div className="flex flex-col rounded-3xl border-2 border-violet/40 bg-card p-8 shadow-sm">
+        <StaggerItem className="flex flex-col rounded-3xl border-2 border-violet/40 bg-card p-8 shadow-sm">
           <h2 className="text-xl font-bold">Choose hosted if…</h2>
           <ul className="mt-4 space-y-3 text-sm text-muted-foreground">
             <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-violet" />You don&apos;t want to manage Docker or databases</li>
@@ -152,23 +153,25 @@ export default function GetStarted() {
               Hosted info &amp; signup
             </Link>
           </div>
-        </div>
-      </div>
+        </StaggerItem>
+      </Stagger>
 
       {/* Still unsure */}
-      <div className="mt-12 rounded-3xl border border-border bg-gradient-to-br from-amber/10 to-violet/10 p-8 text-center">
-        <h2 className="text-xl font-bold">Still not sure?</h2>
-        <p className="mt-2 text-muted-foreground">
-          Start with the hosted version — you can always migrate to self-hosting
-          later. The pipeline and PR output are identical either way.
-        </p>
-        <Link
-          href="/how-it-works"
-          className="mt-6 inline-flex h-11 items-center justify-center rounded-full border border-border bg-card px-5 text-sm font-semibold transition-colors hover:bg-muted"
-        >
-          Learn how the pipeline works
-        </Link>
-      </div>
+      <Reveal>
+        <div className="mt-12 rounded-3xl border border-border bg-gradient-to-br from-amber/10 to-violet/10 p-8 text-center">
+          <h2 className="text-xl font-bold">Still not sure?</h2>
+          <p className="mt-2 text-muted-foreground">
+            Start with the hosted version — you can always migrate to self-hosting
+            later. The pipeline and PR output are identical either way.
+          </p>
+          <Link
+            href="/how-it-works"
+            className="mt-6 inline-flex h-11 items-center justify-center rounded-full border border-border bg-card px-5 text-sm font-semibold transition-colors hover:bg-muted"
+          >
+            Learn how the pipeline works
+          </Link>
+        </div>
+      </Reveal>
     </div>
   );
 }

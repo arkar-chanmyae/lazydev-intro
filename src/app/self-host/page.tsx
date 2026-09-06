@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { FadeIn, Reveal, Stagger, StaggerItem } from "@/components/Animate";
 
 export const metadata: Metadata = {
   title: "Self-host (free)",
@@ -19,7 +20,7 @@ const providers = [
 export default function SelfHost() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
-      <div className="text-center">
+      <FadeIn className="text-center">
         <span className="inline-flex items-center rounded-full bg-amber/15 px-3 py-1 text-xs font-semibold text-amber">
           Free · MIT-licensed
         </span>
@@ -28,10 +29,11 @@ export default function SelfHost() {
           Run the entire stack on your own server. You bring the GitHub App and
           LLM provider — everything else is in the Docker Compose file.
         </p>
-      </div>
+      </FadeIn>
 
       {/* Prerequisites */}
-      <section className="mt-12">
+      <Reveal>
+        <section className="mt-12">
         <h2 className="text-2xl font-bold">Prerequisites</h2>
         <ul className="mt-4 space-y-2 text-muted-foreground">
           <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-terracotta" />Linux (Ubuntu/Debian) server, or macOS/Linux for local dev</li>
@@ -41,9 +43,11 @@ export default function SelfHost() {
           <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-terracotta" />An LLM API key — or a local Ollama instance (free fallback)</li>
         </ul>
       </section>
+      </Reveal>
 
       {/* Step 1: GitHub App */}
-      <section className="mt-12">
+      <Reveal>
+        <section className="mt-12">
         <h2 className="text-2xl font-bold">1. Install the LazyDev GitHub App</h2>
         <p className="mt-3 text-muted-foreground">
           You have two options: use the official app (easiest) or create your own
@@ -71,9 +75,11 @@ export default function SelfHost() {
           </ol>
         </div>
       </section>
+      </Reveal>
 
       {/* Step 2: env */}
-      <section className="mt-12">
+      <Reveal>
+        <section className="mt-12">
         <h2 className="text-2xl font-bold">2. Environment setup</h2>
         <div className="mt-4 overflow-hidden rounded-2xl border border-border bg-card font-mono text-sm shadow-sm">
           <pre className="overflow-x-auto p-5 text-muted-foreground"><code>{`# Backend (server)
@@ -103,9 +109,11 @@ LLM_MODEL=gpt-4o-mini`}</code></pre>
           Everything else has sensible defaults for a Docker deployment.
         </p>
       </section>
+      </Reveal>
 
       {/* Step 3: LLM */}
-      <section className="mt-12">
+      <Reveal>
+        <section className="mt-12">
         <h2 className="text-2xl font-bold">3. Pick your LLM provider</h2>
         <p className="mt-3 text-muted-foreground">
           LazyDev auto-detects the provider from <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">OPENAI_BASE_URL</code>. Set <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">OPENAI_API_KEY</code> + <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">OPENAI_BASE_URL</code> + <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">LLM_MODEL</code>:
@@ -134,9 +142,11 @@ LLM_MODEL=gpt-4o-mini`}</code></pre>
           Each agent can also use a different provider and model via <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">&lt;AGENT&gt;_MODEL</code>, <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">&lt;AGENT&gt;_API_KEY</code>, and <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">&lt;AGENT&gt;_BASE_URL</code> overrides.
         </p>
       </section>
+      </Reveal>
 
       {/* Step 4: run */}
-      <section className="mt-12">
+      <Reveal>
+        <section className="mt-12">
         <h2 className="text-2xl font-bold">4. Run the full stack</h2>
         <div className="mt-4 overflow-hidden rounded-2xl border border-border bg-card font-mono text-sm shadow-sm">
           <pre className="overflow-x-auto p-5 text-muted-foreground"><code>{`docker compose up -d --build`}</code></pre>
@@ -151,9 +161,11 @@ LLM_MODEL=gpt-4o-mini`}</code></pre>
           </p>
         </div>
       </section>
+      </Reveal>
 
       {/* Step 5: webhook tunnel */}
-      <section className="mt-12">
+      <Reveal>
+        <section className="mt-12">
         <h2 className="text-2xl font-bold">5. Expose your webhook endpoint</h2>
         <p className="mt-3 text-muted-foreground">
           GitHub needs a public URL to deliver webhooks. The Compose file ships
@@ -165,20 +177,23 @@ LLM_MODEL=gpt-4o-mini`}</code></pre>
           <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-terracotta" /><span><strong>Reverse proxy</strong> — Caddy/nginx/Traefik for a real domain in production</span></li>
         </ul>
       </section>
+      </Reveal>
 
       {/* CTA */}
-      <div className="mt-16 flex flex-col gap-3 rounded-3xl border border-border bg-gradient-to-br from-amber/10 to-violet/10 p-8 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
-        <div>
-          <h2 className="text-xl font-bold">Prefer not to manage infrastructure?</h2>
-          <p className="mt-1 text-muted-foreground">Let us host it for you — just install the GitHub App.</p>
+      <Reveal>
+        <div className="mt-16 flex flex-col gap-3 rounded-3xl border border-border bg-gradient-to-br from-amber/10 to-violet/10 p-8 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
+          <div>
+            <h2 className="text-xl font-bold">Prefer not to manage infrastructure?</h2>
+            <p className="mt-1 text-muted-foreground">Let us host it for you — just install the GitHub App.</p>
+          </div>
+          <Link
+            href="/hosted"
+            className="inline-flex h-11 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-violet to-violet-soft px-5 text-sm font-semibold text-white shadow-md transition-transform hover:scale-[1.03]"
+          >
+            See the hosted option
+          </Link>
         </div>
-        <Link
-          href="/hosted"
-          className="inline-flex h-11 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-violet to-violet-soft px-5 text-sm font-semibold text-white shadow-md transition-transform hover:scale-[1.03]"
-        >
-          See the hosted option
-        </Link>
-      </div>
+      </Reveal>
 
       <p className="mt-8 text-center text-sm text-muted-foreground">
         For the complete guide, see the{" "}

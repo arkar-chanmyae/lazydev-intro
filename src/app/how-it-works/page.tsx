@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { FadeIn, Reveal, Stagger, StaggerItem } from "@/components/Animate";
 
 export const metadata: Metadata = {
   title: "How it works",
@@ -87,16 +88,16 @@ const mcpTools = [
 export default function HowItWorks() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6">
-      <div className="text-center">
+      <FadeIn className="text-center">
         <h1 className="text-4xl font-bold tracking-tight">How it works</h1>
         <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
           A five-stage multi-agent LangGraph pipeline turns an open GitHub issue
           into a reviewable pull request.
         </p>
-      </div>
+      </FadeIn>
 
       {/* Pipeline overview */}
-      <div className="mt-12 rounded-3xl border border-border bg-card p-6 font-mono text-sm shadow-md">
+      <Reveal delay={0.1} className="mt-12 rounded-3xl border border-border bg-card p-6 font-mono text-sm shadow-md">
         <pre className="overflow-x-auto text-muted-foreground"><code>{`GitHub issue opened
         │  webhook (HMAC-signed, deduped)
         ▼
@@ -106,12 +107,12 @@ export default function HowItWorks() {
                        ▲               ▲                   │
                        └───────────────┘   build fails? ────┘
                           self-healing retry loop`}</code></pre>
-      </div>
+      </Reveal>
 
       {/* Stages */}
-      <div className="mt-16 space-y-12">
+      <Stagger className="mt-16 space-y-12">
         {stages.map((s) => (
-          <div key={s.n} className="grid gap-6 md:grid-cols-[auto_1fr]">
+          <StaggerItem key={s.n} className="grid gap-6 md:grid-cols-[auto_1fr]">
             <div className="flex flex-col items-center">
               <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-terracotta to-amber text-lg font-bold text-accent-foreground shadow-sm">
                 {s.n}
@@ -135,45 +136,48 @@ export default function HowItWorks() {
                 ))}
               </ul>
             </div>
-          </div>
+          </StaggerItem>
         ))}
-      </div>
+      </Stagger>
 
       {/* MCP section */}
-      <section className="mt-20">
-        <h2 className="text-2xl font-bold tracking-tight">Drive it from chat (MCP)</h2>
-        <p className="mt-3 text-muted-foreground">
-          LazyDev exposes itself as an MCP server, so any MCP-capable platform —
-          Hermes, OpenClaw, Claude Desktop — can drive the pipeline manually.
-          Tools are discovered automatically via the MCP handshake.
-        </p>
+      <Reveal>
+        <section className="mt-20">
+          <h2 className="text-2xl font-bold tracking-tight">Drive it from chat (MCP)</h2>
+          <p className="mt-3 text-muted-foreground">
+            LazyDev exposes itself as an MCP server, so any MCP-capable platform —
+            Hermes, OpenClaw, Claude Desktop — can drive the pipeline manually.
+            Tools are discovered automatically via the MCP handshake.
+          </p>
 
-        <div className="mt-6 overflow-hidden rounded-2xl border border-border">
-          <table className="w-full text-left text-sm">
-            <thead className="bg-muted">
-              <tr>
-                <th className="px-4 py-3 font-semibold">Tool</th>
-                <th className="px-4 py-3 font-semibold">Purpose</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border">
-              {mcpTools.map((t) => (
-                <tr key={t.name}>
-                  <td className="px-4 py-3 font-mono text-xs text-terracotta">{t.name}</td>
-                  <td className="px-4 py-3 text-muted-foreground">{t.desc}</td>
+          <div className="mt-6 overflow-hidden rounded-2xl border border-border">
+            <table className="w-full text-left text-sm">
+              <thead className="bg-muted">
+                <tr>
+                  <th className="px-4 py-3 font-semibold">Tool</th>
+                  <th className="px-4 py-3 font-semibold">Purpose</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {mcpTools.map((t) => (
+                  <tr key={t.name}>
+                    <td className="px-4 py-3 font-mono text-xs text-terracotta">{t.name}</td>
+                    <td className="px-4 py-3 text-muted-foreground">{t.desc}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-        <p className="mt-4 text-sm text-muted-foreground">
-          Write tools return a <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">task_id</code> immediately — pipelines run asynchronously on the BullMQ queue. Work runs one job at a time in FIFO order.
-        </p>
-      </section>
+          <p className="mt-4 text-sm text-muted-foreground">
+            Write tools return a <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">task_id</code> immediately — pipelines run asynchronously on the BullMQ queue. Work runs one job at a time in FIFO order.
+          </p>
+        </section>
+      </Reveal>
 
       {/* CTA */}
-      <div className="mt-16 rounded-3xl border border-border bg-gradient-to-br from-amber/10 to-violet/10 p-8 text-center">
+      <Reveal>
+        <div className="mt-16 rounded-3xl border border-border bg-gradient-to-br from-amber/10 to-violet/10 p-8 text-center">
         <h2 className="text-xl font-bold">Ready to pick your deployment?</h2>
         <p className="mt-2 text-muted-foreground">Self-host for free, or let us run it for you.</p>
         <Link
@@ -183,6 +187,7 @@ export default function HowItWorks() {
           Compare both options
         </Link>
       </div>
+      </Reveal>
     </div>
   );
 }

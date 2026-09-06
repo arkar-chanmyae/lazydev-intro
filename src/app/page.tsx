@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { FadeIn, Reveal, Stagger, StaggerItem } from "@/components/Animate";
 
 const pipeline = [
   {
@@ -72,7 +73,7 @@ export default function Home() {
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-amber/15 via-terracotta/5 to-background" />
         <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
           <div className="grid items-center gap-10 lg:grid-cols-2">
-            <div className="text-center lg:text-left">
+            <FadeIn className="text-center lg:text-left">
               <span className="inline-flex items-center rounded-full border border-border bg-card px-4 py-1.5 text-xs font-medium text-muted-foreground shadow-sm">
                 AI-native autonomous CI engineering assistant
               </span>
@@ -103,8 +104,8 @@ export default function Home() {
                   View on GitHub
                 </a>
               </div>
-            </div>
-            <div className="relative">
+            </FadeIn>
+            <FadeIn delay={0.15} className="relative">
               <div className="absolute -inset-6 -z-10 rounded-[2.5rem] bg-gradient-to-tr from-terracotta/25 via-amber/20 to-violet/25 blur-3xl" />
               <Image
                 src="/lazydev-hero.jpeg"
@@ -115,7 +116,7 @@ export default function Home() {
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="h-auto w-full rounded-3xl border border-border shadow-2xl"
               />
-            </div>
+            </FadeIn>
           </div>
         </div>
       </section>
@@ -123,7 +124,7 @@ export default function Home() {
       {/* What is it */}
       <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
         <div className="grid gap-12 md:grid-cols-2 md:items-center">
-          <div>
+          <Reveal>
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
               What is LazyDev?
             </h2>
@@ -139,14 +140,15 @@ export default function Home() {
               trigger a fix on a backlog issue, request a brand-new feature, poll
               status, or inject human feedback to correct the agent mid-run.
             </p>
-          </div>
-          <div className="rounded-3xl border border-border bg-card p-6 font-mono text-sm shadow-md">
-            <div className="mb-3 flex items-center gap-1.5">
-              <span className="h-3 w-3 rounded-full bg-terracotta/70" />
-              <span className="h-3 w-3 rounded-full bg-amber/70" />
-              <span className="h-3 w-3 rounded-full bg-violet/70" />
-            </div>
-            <pre className="overflow-x-auto text-muted-foreground"><code>{`# A new issue is opened on GitHub
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div className="rounded-3xl border border-border bg-card p-6 font-mono text-sm shadow-md">
+              <div className="mb-3 flex items-center gap-1.5">
+                <span className="h-3 w-3 rounded-full bg-terracotta/70" />
+                <span className="h-3 w-3 rounded-full bg-amber/70" />
+                <span className="h-3 w-3 rounded-full bg-violet/70" />
+              </div>
+              <pre className="overflow-x-auto text-muted-foreground"><code>{`# A new issue is opened on GitHub
 issue #42 opened → webhook delivered
 
 Onboarding    → reads repo + build setup
@@ -156,14 +158,15 @@ Validation    → npm run build in sandbox ✓
 GitAgent      → pushes branch, opens PR
 
 PR #43: "Fix: resolve issue #42"`}</code></pre>
-          </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 
       {/* How it works (pipeline) */}
       <section className="border-y border-border bg-muted/40">
         <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-          <div className="text-center">
+          <Reveal className="text-center">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
               How it works
             </h2>
@@ -171,11 +174,11 @@ PR #43: "Fix: resolve issue #42"`}</code></pre>
               A five-stage multi-agent pipeline turns an open issue into a merged
               pull request.
             </p>
-          </div>
+          </Reveal>
 
-          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          <Stagger className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
             {pipeline.map((s) => (
-              <div
+              <StaggerItem
                 key={s.step}
                 className="relative rounded-2xl border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md"
               >
@@ -184,24 +187,24 @@ PR #43: "Fix: resolve issue #42"`}</code></pre>
                 </div>
                 <h3 className="mt-4 font-semibold">{s.name}</h3>
                 <p className="mt-2 text-sm text-muted-foreground">{s.desc}</p>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
 
-          <div className="mt-10 text-center">
+          <Reveal delay={0.1} className="mt-10 text-center">
             <Link
               href="/how-it-works"
               className="text-sm font-semibold text-terracotta hover:underline"
             >
               See the full pipeline walkthrough →
             </Link>
-          </div>
+          </Reveal>
         </div>
       </section>
 
       {/* Two-option chooser */}
       <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-        <div className="text-center">
+        <Reveal className="text-center">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
             Two ways to use LazyDev
           </h2>
@@ -209,11 +212,11 @@ PR #43: "Fix: resolve issue #42"`}</code></pre>
             Run the entire stack yourself for free, or let us host it for you and
             just install the GitHub App. Pick what fits your team.
           </p>
-        </div>
+        </Reveal>
 
-        <div className="mt-12 grid gap-6 lg:grid-cols-2">
+        <Stagger className="mt-12 grid gap-6 lg:grid-cols-2">
           {/* Self-host */}
-          <div className="flex flex-col rounded-3xl border border-border bg-card p-8 shadow-sm">
+          <StaggerItem className="flex flex-col rounded-3xl border border-border bg-card p-8 shadow-sm">
             <div className="flex items-center gap-3">
               <span className="inline-flex items-center rounded-full bg-amber/15 px-3 py-1 text-xs font-semibold text-amber">
                 Free
@@ -252,10 +255,10 @@ PR #43: "Fix: resolve issue #42"`}</code></pre>
                 Choose this option
               </Link>
             </div>
-          </div>
+          </StaggerItem>
 
           {/* Hosted */}
-          <div className="relative flex flex-col rounded-3xl border-2 border-violet/40 bg-card p-8 shadow-sm">
+          <StaggerItem className="relative flex flex-col rounded-3xl border-2 border-violet/40 bg-card p-8 shadow-sm">
             <div className="absolute -top-3 left-8 inline-flex items-center rounded-full bg-gradient-to-r from-violet to-violet-soft px-3 py-1 text-xs font-semibold text-white shadow-sm">
               We run it for you
             </div>
@@ -299,14 +302,14 @@ PR #43: "Fix: resolve issue #42"`}</code></pre>
                 Install the GitHub App
               </a>
             </div>
-          </div>
-        </div>
+          </StaggerItem>
+        </Stagger>
       </section>
 
       {/* Features grid */}
       <section className="border-t border-border bg-muted/40">
         <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-          <div className="text-center">
+          <Reveal className="text-center">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
               Features
             </h2>
@@ -314,46 +317,48 @@ PR #43: "Fix: resolve issue #42"`}</code></pre>
               Built for production from day one — security, observability, and
               reliability baked in.
             </p>
-          </div>
+          </Reveal>
 
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <Stagger className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {features.map((f) => (
-              <div
+              <StaggerItem
                 key={f.title}
                 className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-shadow hover:shadow-md"
               >
                 <h3 className="font-semibold">{f.title}</h3>
                 <p className="mt-2 text-sm text-muted-foreground">{f.desc}</p>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
       {/* Final CTA */}
       <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-        <div className="rounded-3xl border border-border bg-gradient-to-br from-amber/15 via-terracotta/10 to-violet/15 p-10 text-center shadow-sm sm:p-16">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Ready to stop babysitting your issue tracker?
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
-            Pick the option that fits your team and get started in minutes.
-          </p>
-          <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Link
-              href="/get-started"
-              className="inline-flex h-12 items-center justify-center rounded-full bg-gradient-to-r from-terracotta to-amber px-7 text-sm font-semibold text-accent-foreground shadow-md transition-transform hover:scale-[1.03]"
-            >
-              Compare both options
-            </Link>
-            <Link
-              href="/how-it-works"
-              className="inline-flex h-12 items-center justify-center rounded-full border border-border bg-card px-7 text-sm font-semibold transition-colors hover:bg-muted"
-            >
-              Learn how it works
-            </Link>
+        <Reveal>
+          <div className="rounded-3xl border border-border bg-gradient-to-br from-amber/15 via-terracotta/10 to-violet/15 p-10 text-center shadow-sm sm:p-16">
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+              Ready to stop babysitting your issue tracker?
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
+              Pick the option that fits your team and get started in minutes.
+            </p>
+            <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <Link
+                href="/get-started"
+                className="inline-flex h-12 items-center justify-center rounded-full bg-gradient-to-r from-terracotta to-amber px-7 text-sm font-semibold text-accent-foreground shadow-md transition-transform hover:scale-[1.03]"
+              >
+                Compare both options
+              </Link>
+              <Link
+                href="/how-it-works"
+                className="inline-flex h-12 items-center justify-center rounded-full border border-border bg-card px-7 text-sm font-semibold transition-colors hover:bg-muted"
+              >
+                Learn how it works
+              </Link>
+            </div>
           </div>
-        </div>
+        </Reveal>
       </section>
     </>
   );
