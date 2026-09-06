@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     description:
       "Monitors GitHub issues, generates validated fixes, and opens PRs. Self-host free or use our hosted service.",
     type: "website",
-    url: "https://github.com/FutureMindsDev/lazy-issue-resolver",
+    url: "https://github.com/FutureMindsDev/lazydev-server",
     images: [
       {
         url: "/lazydev-hero.jpeg",

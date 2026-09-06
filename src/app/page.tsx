@@ -95,7 +95,7 @@ export default function Home() {
                   Get started
                 </Link>
                 <a
-                  href="https://github.com/FutureMindsDev/lazy-issue-resolver"
+                  href="https://github.com/FutureMindsDev/lazydev-server"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex h-12 items-center justify-center rounded-full border border-border bg-card px-7 text-sm font-semibold transition-colors hover:bg-muted"

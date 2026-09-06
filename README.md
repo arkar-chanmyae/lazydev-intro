@@ -12,7 +12,9 @@ MCP-capable chat platform.
 
 > This repo contains the **introduction & docs website** for LazyDev.
 > The main application lives at
-> [`FutureMindsDev/lazy-issue-resolver`](https://github.com/FutureMindsDev/lazy-issue-resolver).
+> The main application lives in two repos:
+> [`lazydev-server`](https://github.com/FutureMindsDev/lazydev-server) (backend)
+> and [`lazydev-client`](https://github.com/FutureMindsDev/lazydev-client) (frontend).
 
 ---
 
@@ -29,7 +31,8 @@ your own compute.
 - Your code never leaves your infrastructure
 - MIT-licensed, free forever
 
-→ [Self-host guide](https://github.com/FutureMindsDev/lazy-issue-resolver/blob/main/README.md)
+→ [Server README](https://github.com/FutureMindsDev/lazydev-server/blob/main/README.md) ·
+[Client README](https://github.com/FutureMindsDev/lazydev-client/blob/main/README.md)
 
 ### Hosted — We run it for you
 
@@ -137,5 +140,5 @@ Open [http://localhost:3000](http://localhost:3000).
 ## License
 
 MIT — see the main
-[`lazy-issue-resolver`](https://github.com/FutureMindsDev/lazy-issue-resolver)
+[`lazydev-server`](https://github.com/FutureMindsDev/lazydev-server)
 repo for the full license.

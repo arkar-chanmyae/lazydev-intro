@@ -39,7 +39,7 @@ export default function Navbar() {
 
         <div className="flex items-center gap-2">
           <a
-            href="https://github.com/FutureMindsDev/lazy-issue-resolver"
+            href="https://github.com/FutureMindsDev/lazydev-server"
             target="_blank"
             rel="noopener noreferrer"
             className="hidden items-center gap-1.5 rounded-full border border-border px-3.5 py-2 text-sm font-medium transition-colors hover:bg-muted sm:inline-flex"

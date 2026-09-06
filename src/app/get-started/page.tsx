@@ -117,12 +117,12 @@ export default function GetStarted() {
               Self-host guide
             </Link>
             <a
-              href="https://github.com/FutureMindsDev/lazy-issue-resolver"
+              href="https://github.com/FutureMindsDev/lazydev-server"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex h-11 items-center justify-center rounded-full border border-border bg-card px-5 text-sm font-semibold transition-colors hover:bg-muted"
             >
-              View the repo
+              View the repos
             </a>
           </div>
         </div>

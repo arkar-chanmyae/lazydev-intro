@@ -76,8 +76,14 @@ export default function SelfHost() {
       <section className="mt-12">
         <h2 className="text-2xl font-bold">2. Environment setup</h2>
         <div className="mt-4 overflow-hidden rounded-2xl border border-border bg-card font-mono text-sm shadow-sm">
-          <pre className="overflow-x-auto p-5 text-muted-foreground"><code>{`git clone https://github.com/FutureMindsDev/lazy-issue-resolver.git
-cd lazy-issue-resolver
+          <pre className="overflow-x-auto p-5 text-muted-foreground"><code>{`# Backend (server)
+git clone https://github.com/FutureMindsDev/lazydev-server.git
+cd lazydev-server
+cp .env.example .env
+
+# Frontend (client) — in a separate terminal
+git clone https://github.com/FutureMindsDev/lazydev-client.git
+cd lazydev-client
 cp .env.example .env`}</code></pre>
         </div>
         <p className="mt-3 text-sm text-muted-foreground">
@@ -176,9 +182,14 @@ LLM_MODEL=gpt-4o-mini`}</code></pre>
 
       <p className="mt-8 text-center text-sm text-muted-foreground">
         For the complete guide, see the{" "}
-        <a href="https://github.com/FutureMindsDev/lazy-issue-resolver/blob/main/README.md" target="_blank" rel="noopener noreferrer" className="text-terracotta hover:underline">
-          full README on GitHub
-        </a>.
+        <a href="https://github.com/FutureMindsDev/lazydev-server/blob/main/README.md" target="_blank" rel="noopener noreferrer" className="text-terracotta hover:underline">
+          server README
+        </a>{" "}
+        and the{" "}
+        <a href="https://github.com/FutureMindsDev/lazydev-client/blob/main/README.md" target="_blank" rel="noopener noreferrer" className="text-terracotta hover:underline">
+          client README
+        </a>{" "}
+        on GitHub.
       </p>
     </div>
   );

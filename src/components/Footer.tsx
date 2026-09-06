@@ -39,7 +39,7 @@ export default function Footer() {
             <h3 className="text-sm font-semibold">Resources</h3>
             <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
               <li>
-                <a href="https://github.com/FutureMindsDev/lazy-issue-resolver" target="_blank" rel="noopener noreferrer" className="hover:text-foreground">
+                <a href="https://github.com/FutureMindsDev/lazydev-server" target="_blank" rel="noopener noreferrer" className="hover:text-foreground">
                   GitHub repository
                 </a>
               </li>
@@ -49,7 +49,7 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="https://github.com/FutureMindsDev/lazy-issue-resolver/issues" target="_blank" rel="noopener noreferrer" className="hover:text-foreground">
+                <a href="https://github.com/FutureMindsDev/lazydev-server/issues" target="_blank" rel="noopener noreferrer" className="hover:text-foreground">
                   Report an issue
                 </a>
               </li>
