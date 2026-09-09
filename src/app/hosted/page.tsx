@@ -48,7 +48,7 @@ export default function Hosted() {
             Install the GitHub App
           </a>
           <a
-            href="mailto:hello@futureminds.dev?subject=LazyDev%20hosted%20signup"
+            href="mailto:arkarchanmyae.dev@gmail.com"
             className="inline-flex h-12 items-center justify-center rounded-full border border-border bg-card px-7 text-sm font-semibold transition-colors hover:bg-muted"
           >
             Contact us to sign up
@@ -59,16 +59,16 @@ export default function Hosted() {
       {/* What we run */}
       <Reveal>
         <section className="mt-16">
-        <h2 className="text-2xl font-bold">What we run for you</h2>
-        <ul className="mt-4 space-y-2 text-muted-foreground">
-          <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-violet" />The NestJS app + LangGraph pipeline</li>
-          <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-violet" />Postgres, Redis, and Qdrant (vector DB)</li>
-          <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-violet" />Serena MCP (project memory)</li>
-          <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-violet" />The Docker sandbox that validates generated patches</li>
-          <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-violet" />The LLM provider — we pay for the AI compute</li>
-          <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-violet" />The public HTTPS webhook endpoint</li>
-        </ul>
-      </section>
+          <h2 className="text-2xl font-bold">What we run for you</h2>
+          <ul className="mt-4 space-y-2 text-muted-foreground">
+            <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-violet" />The NestJS app + LangGraph pipeline</li>
+            <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-violet" />Postgres, Redis, and Qdrant (vector DB)</li>
+            <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-violet" />Serena MCP (project memory)</li>
+            <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-violet" />The Docker sandbox that validates generated patches</li>
+            <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-violet" />The LLM provider — we pay for the AI compute</li>
+            <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-violet" />The public HTTPS webhook endpoint</li>
+          </ul>
+        </section>
       </Reveal>
 
       {/* What you don't need */}
@@ -93,25 +93,25 @@ export default function Hosted() {
           <h2 className="text-2xl font-bold">How to use it</h2>
           <Stagger className="mt-4 space-y-4">
             <StaggerItem className="rounded-2xl border border-border bg-card p-5 shadow-sm">
-            <span className="flex h-8 w-8 items-center justify-center rounded-2xl bg-gradient-to-br from-violet to-violet-soft text-sm font-bold text-white shadow-sm">1</span>
-            <h3 className="mt-3 font-semibold">Install the GitHub App</h3>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Open <a href="https://github.com/apps/lazydev-issue-resolver" target="_blank" rel="noopener noreferrer" className="text-violet hover:underline">github.com/apps/lazydev-issue-resolver</a>, click Install, and pick the repos LazyDev should monitor.
-            </p>
+              <span className="flex h-8 w-8 items-center justify-center rounded-2xl bg-gradient-to-br from-violet to-violet-soft text-sm font-bold text-white shadow-sm">1</span>
+              <h3 className="mt-3 font-semibold">Install the GitHub App</h3>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Open <a href="https://github.com/apps/lazydev-issue-resolver" target="_blank" rel="noopener noreferrer" className="text-violet hover:underline">github.com/apps/lazydev-issue-resolver</a>, click Install, and pick the repos LazyDev should monitor.
+              </p>
             </StaggerItem>
             <StaggerItem className="rounded-2xl border border-border bg-card p-5 shadow-sm">
-            <span className="flex h-8 w-8 items-center justify-center rounded-2xl bg-gradient-to-br from-violet to-violet-soft text-sm font-bold text-white shadow-sm">2</span>
-            <h3 className="mt-3 font-semibold">Open issues normally</h3>
-            <p className="mt-1 text-sm text-muted-foreground">
-              New issues (opened / reopened) are automatically queued for a fix. LazyDev clones the repo, runs the pipeline, validates the patch, and opens a PR.
-            </p>
+              <span className="flex h-8 w-8 items-center justify-center rounded-2xl bg-gradient-to-br from-violet to-violet-soft text-sm font-bold text-white shadow-sm">2</span>
+              <h3 className="mt-3 font-semibold">Open issues normally</h3>
+              <p className="mt-1 text-sm text-muted-foreground">
+                New issues (opened / reopened) are automatically queued for a fix. LazyDev clones the repo, runs the pipeline, validates the patch, and opens a PR.
+              </p>
             </StaggerItem>
             <StaggerItem className="rounded-2xl border border-border bg-card p-5 shadow-sm">
-            <span className="flex h-8 w-8 items-center justify-center rounded-2xl bg-gradient-to-br from-violet to-violet-soft text-sm font-bold text-white shadow-sm">3</span>
-            <h3 className="mt-3 font-semibold">(Optional) Connect a chat client</h3>
-            <p className="mt-1 text-sm text-muted-foreground">
-              We send you a personal MCP bearer token. Wire it into Hermes, OpenClaw, or Claude Desktop to trigger fixes manually, request features, and inject feedback.
-            </p>
+              <span className="flex h-8 w-8 items-center justify-center rounded-2xl bg-gradient-to-br from-violet to-violet-soft text-sm font-bold text-white shadow-sm">3</span>
+              <h3 className="mt-3 font-semibold">(Optional) Connect a chat client</h3>
+              <p className="mt-1 text-sm text-muted-foreground">
+                We send you a personal MCP bearer token. Wire it into Hermes, OpenClaw, or Claude Desktop to trigger fixes manually, request features, and inject feedback.
+              </p>
             </StaggerItem>
           </Stagger>
         </section>

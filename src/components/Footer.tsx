@@ -32,6 +32,7 @@ export default function Footer() {
               <li><Link href="/get-started" className="hover:text-foreground">Get started</Link></li>
               <li><Link href="/self-host" className="hover:text-foreground">Self-host</Link></li>
               <li><Link href="/hosted" className="hover:text-foreground">Hosted</Link></li>
+              <li><Link href="/about" className="hover:text-foreground">About Us</Link></li>
             </ul>
           </div>
 
