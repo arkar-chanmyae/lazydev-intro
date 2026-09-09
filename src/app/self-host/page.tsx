@@ -48,30 +48,26 @@ export default function SelfHost() {
       {/* Step 1: GitHub App */}
       <Reveal>
         <section className="mt-12">
-        <h2 className="text-2xl font-bold">1. Install the LazyDev GitHub App</h2>
+        <h2 className="text-2xl font-bold">1. Create &amp; configure your GitHub App</h2>
         <p className="mt-3 text-muted-foreground">
-          You have two options: use the official app (easiest) or create your own
-          for full control.
+          Self-hosting requires your own GitHub App so your instance can securely listen to repository webhooks and push fixes.
         </p>
 
         <div className="mt-4 rounded-2xl border border-border bg-card p-5 shadow-sm">
-          <h3 className="font-semibold">Option A — Use the official app</h3>
-          <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm text-muted-foreground">
-            <li>Open <a href="https://github.com/apps/lazydev-issue-resolver" target="_blank" rel="noopener noreferrer" className="text-terracotta hover:underline">github.com/apps/lazydev-issue-resolver</a></li>
-            <li>Click <strong>Install</strong> and pick your account/org</li>
-            <li>Choose <strong>Only select repositories</strong> and pick your repos</li>
-            <li>Grab the App ID, generate a Private Key (.pem), and set a Webhook Secret</li>
-          </ol>
-        </div>
-
-        <div className="mt-4 rounded-2xl border border-border bg-card p-5 shadow-sm">
-          <h3 className="font-semibold">Option B — Create your own GitHub App</h3>
-          <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm text-muted-foreground">
-            <li>GitHub → Settings → Developer settings → <strong>New GitHub App</strong></li>
-            <li>Set Homepage URL, Webhook URL to <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">https://&lt;your-url&gt;/webhooks/github</code>, and a Webhook secret</li>
-            <li>Grant permissions: Metadata (read), Contents (read+write), Pull requests (read+write), Issues (read+write)</li>
-            <li>Subscribe to events: Issues, Issue comment, Check run</li>
-            <li>Generate a private key and install the app on your repos</li>
+          <ol className="list-decimal space-y-2.5 pl-5 text-sm text-muted-foreground">
+            <li>In GitHub, go to <strong>Settings</strong> → <strong>Developer settings</strong> → <strong>GitHub Apps</strong> → <strong>New GitHub App</strong></li>
+            <li>Set <strong>Homepage URL</strong> to your deployment, <strong>Webhook URL</strong> to <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">https://&lt;your-public-url&gt;/webhooks/github</code>, and set a <strong>Webhook secret</strong></li>
+            <li>Grant repository permissions:
+              <ul className="mt-1 list-disc space-y-1 pl-5 text-xs text-muted-foreground">
+                <li><strong>Metadata:</strong> Read</li>
+                <li><strong>Contents:</strong> Read &amp; write (clone code and push fix branches)</li>
+                <li><strong>Pull requests:</strong> Read &amp; write (open and update PRs)</li>
+                <li><strong>Issues:</strong> Read &amp; write (read issues and create feature tracking issues)</li>
+              </ul>
+            </li>
+            <li>Subscribe to events: <strong>Issues</strong>, <strong>Issue comment</strong>, <strong>Check run</strong></li>
+            <li>Generate a private key (<code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.pem</code>), download it, and save the App ID</li>
+            <li>Click <strong>Install App</strong> and install it on the repositories you want monitored</li>
           </ol>
         </div>
       </section>

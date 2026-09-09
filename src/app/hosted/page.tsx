@@ -148,8 +148,8 @@ export default function Hosted() {
 
       <p className="mt-8 text-center text-sm text-muted-foreground">
         For the complete guide, see the{" "}
-        <a href="https://github.com/FutureMindsDev/lazydev-server/blob/main/readme_host.md" target="_blank" rel="noopener noreferrer" className="text-violet hover:underline">
-          hosted guide on GitHub
+        <a href="https://github.com/FutureMindsDev/lazydev-server/blob/main/README.md" target="_blank" rel="noopener noreferrer" className="text-violet hover:underline">
+          documentation on GitHub
         </a>.
       </p>
     </div>

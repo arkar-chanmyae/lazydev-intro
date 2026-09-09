@@ -11,7 +11,6 @@ all without human intervention. You can also drive it manually from any
 MCP-capable chat platform.
 
 > This repo contains the **introduction & docs website** for LazyDev.
-> The main application lives at
 > The main application lives in two repos:
 > [`lazydev-server`](https://github.com/FutureMindsDev/lazydev-server) (backend)
 > and [`lazydev-client`](https://github.com/FutureMindsDev/lazydev-client) (frontend).
