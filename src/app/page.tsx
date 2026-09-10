@@ -107,15 +107,18 @@ export default function Home() {
             </FadeIn>
             <FadeIn delay={0.15} className="relative">
               <div className="absolute -inset-6 -z-10 rounded-[2.5rem] bg-gradient-to-tr from-terracotta/25 via-amber/20 to-violet/25 blur-3xl" />
-              <Image
-                src="/lazydev-hero.jpeg"
-                alt="A developer sleeping peacefully on a bed next to a laptop that is running code during the day, with pull requests being opened automatically."
-                width={2752}
-                height={1536}
-                priority
-                sizes="(max-width: 1024px) 100vw, 50vw"
+              <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="auto"
+                poster="/lazydev-hero.jpeg"
                 className="h-auto w-full rounded-3xl border border-border shadow-2xl"
-              />
+              >
+                <source src="/lazydev-hero.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
             </FadeIn>
           </div>
         </div>
@@ -337,6 +340,16 @@ PR #43: "Fix: resolve issue #42"`}</code></pre>
       <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
         <Reveal>
           <div className="rounded-3xl border border-border bg-gradient-to-br from-amber/15 via-terracotta/10 to-violet/15 p-10 text-center shadow-sm sm:p-16">
+            <div className="mx-auto mb-8 max-w-2xl overflow-hidden rounded-2xl border border-border shadow-lg">
+              <Image
+                src="/lazydev-hero.jpeg"
+                alt="A developer sleeping peacefully on a bed next to a laptop that is running code during the day, with pull requests being opened automatically."
+                width={2752}
+                height={1536}
+                sizes="(max-width: 768px) 100vw, 672px"
+                className="h-auto w-full object-cover"
+              />
+            </div>
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
               Ready to stop babysitting your issue tracker?
             </h2>
