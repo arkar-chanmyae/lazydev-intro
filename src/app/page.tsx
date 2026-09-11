@@ -107,18 +107,26 @@ export default function Home() {
             </FadeIn>
             <FadeIn delay={0.15} className="relative">
               <div className="absolute -inset-6 -z-10 rounded-[2.5rem] bg-gradient-to-tr from-terracotta/25 via-amber/20 to-violet/25 blur-3xl" />
-              <video
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="auto"
-                poster="/lazydev-hero.jpeg"
-                className="h-auto w-full rounded-3xl border border-border shadow-2xl"
-              >
-                <source src="/lazydev-hero.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+              <div className="overflow-hidden rounded-3xl border border-border bg-black shadow-2xl aspect-video">
+                <iframe
+                  src="https://drive.google.com/file/d/1ZWebXQWBErHg3q2fwIsPbrPDUSEVKG0z/preview"
+                  title="LazyDev demo video"
+                  allow="autoplay; encrypted-media; picture-in-picture"
+                  allowFullScreen
+                  loading="lazy"
+                  className="h-full w-full border-0"
+                />
+              </div>
+              <p className="mt-3 text-center text-xs text-muted-foreground">
+                <a
+                  href="https://drive.google.com/file/d/1ZWebXQWBErHg3q2fwIsPbrPDUSEVKG0z/view?usp=drive_link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-foreground hover:underline"
+                >
+                  Watch the demo on Google Drive →
+                </a>
+              </p>
             </FadeIn>
           </div>
         </div>
