@@ -2,31 +2,21 @@ import Link from "next/link";
 import Image from "next/image";
 import { FadeIn, Reveal, Stagger, StaggerItem } from "@/components/Animate";
 
-const pipeline = [
+const whyTeaser = [
   {
     step: "1",
-    name: "Onboarding",
-    desc: "Reads your repo structure, conventions, and build setup so fixes match your codebase.",
+    name: "Let it run itself",
+    desc: "Opened issues are queued automatically (FIFO, no overlaps) and turned into reviewable PRs. You approve — it never merges.",
   },
   {
     step: "2",
-    name: "Planner",
-    desc: "Researches the issue and produces a step-by-step fix plan using a tool loop.",
+    name: "Grounded fixes",
+    desc: "Serena MCP + RAG finds the right code semantically and edits one symbol at a time, so less hallucination.",
   },
   {
     step: "3",
-    name: "PatchGenerator",
-    desc: "Writes the actual code changes with read-before-edit gates for safety.",
-  },
-  {
-    step: "4",
-    name: "Validation",
-    desc: "Runs `npm run build` inside an isolated Docker sandbox to verify the patch compiles.",
-  },
-  {
-    step: "5",
-    name: "GitAgent",
-    desc: "Pushes a fix branch and opens a pull request with a traceable title.",
+    name: "Learns your repo",
+    desc: "Serena memories store repo structure plus what worked / what didn't, so future fixes get better.",
   },
 ];
 
@@ -85,8 +75,8 @@ export default function Home() {
               </h1>
               <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground lg:mx-0">
                 It monitors your repositories, generates validated code fixes with a
-                multi-agent AI pipeline, and opens pull requests automatically. No
-                babysitting required.
+                grounded AI pipeline, and opens pull requests automatically. You
+                review and approve — it never merges on its own.
               </p>
               <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start">
                 <Link
@@ -171,16 +161,16 @@ PR #43: "Fix: resolve issue #42"`}</code></pre>
         <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
           <Reveal className="text-center">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-              How it works
+              Why LazyDev is for you
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
-              A five-stage multi-agent pipeline turns an open issue into a merged
-              pull request.
+              It runs itself from issue to pull request, grounds every fix with
+              Serena MCP + RAG, and gets smarter the longer you use it.
             </p>
           </Reveal>
 
-          <Stagger className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            {pipeline.map((s) => (
+          <Stagger className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {whyTeaser.map((s) => (
               <StaggerItem
                 key={s.step}
                 className="relative rounded-2xl border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md"
@@ -196,10 +186,10 @@ PR #43: "Fix: resolve issue #42"`}</code></pre>
 
           <Reveal delay={0.1} className="mt-10 text-center">
             <Link
-              href="/how-it-works"
+              href="/why-lazydev"
               className="text-sm font-semibold text-terracotta hover:underline"
             >
-              See the full pipeline walkthrough →
+              See why LazyDev is for you →
             </Link>
           </Reveal>
         </div>
@@ -364,10 +354,10 @@ PR #43: "Fix: resolve issue #42"`}</code></pre>
                 Compare both options
               </Link>
               <Link
-                href="/how-it-works"
+                href="/why-lazydev"
                 className="inline-flex h-12 items-center justify-center rounded-full border border-border bg-card px-7 text-sm font-semibold transition-colors hover:bg-muted"
               >
-                Learn how it works
+                Why LazyDev is for you
               </Link>
             </div>
           </div>
