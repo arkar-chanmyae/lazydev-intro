@@ -50,13 +50,15 @@ export default function SelfHost() {
         <section className="mt-12">
         <h2 className="text-2xl font-bold">1. Create &amp; configure your GitHub App</h2>
         <p className="mt-3 text-muted-foreground">
-          Self-hosting requires your own GitHub App so your instance can securely listen to repository webhooks and push fixes.
+          Self-hosting runs on your own infrastructure, so create your own GitHub App for webhooks and fix branches.
         </p>
 
         <div className="mt-4 rounded-2xl border border-border bg-card p-5 shadow-sm">
-          <ol className="list-decimal space-y-2.5 pl-5 text-sm text-muted-foreground">
+          <ol className="mt-2 list-decimal space-y-2.5 pl-5 text-sm text-muted-foreground">
             <li>In GitHub, go to <strong>Settings</strong> → <strong>Developer settings</strong> → <strong>GitHub Apps</strong> → <strong>New GitHub App</strong></li>
-            <li>Set <strong>Homepage URL</strong> to your deployment, <strong>Webhook URL</strong> to <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">https://&lt;your-public-url&gt;/webhooks/github</code>, and set a <strong>Webhook secret</strong></li>
+            <li>Set <strong>Homepage URL</strong> to <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">https://github.com/&lt;your-username&gt;/&lt;name-for-your-app&gt;</code>. This becomes the public link to your GitHub App — you will return to this page anytime you need to change the app&apos;s settings, permissions, keys, or webhook.</li>
+            <li>Before filling in the <strong>Webhook URL</strong> below, note the ordering: if you run ngrok as a Docker container (recommended), ngrok only gives you its random public address <strong>after</strong> you clone the server repo and start Docker in Steps 2–4. So enter a temporary placeholder here, finish creating the app, then come back and update it with the real URL in Step 5.</li>
+            <li>Set <strong>Webhook URL</strong> to the temporary placeholder <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">https://placeholder.ngrok-free.app/webhooks/github</code> for now. This is the address GitHub posts events to — every time an issue is opened, GitHub sends the event payload to this URL and your LazyDev server listens there. You will replace it with the real <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">https://&lt;your-ngrok-url&gt;/webhooks/github</code> in Step 5. Then set a <strong>Webhook secret</strong> (a strong random string you also paste into the server <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.env</code> in Step 2).</li>
             <li>Grant repository permissions:
               <ul className="mt-1 list-disc space-y-1 pl-5 text-xs text-muted-foreground">
                 <li><strong>Metadata:</strong> Read</li>
@@ -67,8 +69,12 @@ export default function SelfHost() {
             </li>
             <li>Subscribe to events: <strong>Issues</strong>, <strong>Issue comment</strong>, <strong>Check run</strong></li>
             <li>Generate a private key (<code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.pem</code>), download it, and save the App ID</li>
-            <li>Click <strong>Install App</strong> and install it on the repositories you want monitored</li>
+            <li>Click <strong>Create GitHub App</strong>, then <strong>Install App</strong> and install it on the repositories you want monitored</li>
           </ol>
+          <p className="mt-3 rounded-xl bg-amber/10 p-3 text-xs text-muted-foreground">
+            After changing permissions GitHub emails the installation owner for approval. Until you accept,
+            the app keeps its old permissions and feature requests that need issue-write will fail with an explicit message.
+          </p>
         </div>
       </section>
       </Reveal>
@@ -77,32 +83,45 @@ export default function SelfHost() {
       <Reveal>
         <section className="mt-12">
         <h2 className="text-2xl font-bold">2. Environment setup</h2>
+        <p className="mt-3 text-sm text-muted-foreground">
+          Self-host uses two public repos: <strong>lazydev-server</strong> (backend — all GitHub App, LLM, Docker/infra settings live here)
+          and <strong>lazydev-client</strong> (frontend — only needs the server API URL). Do not clone
+          <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">lazy-issue-resolver</code> — that is our private hosted deployment that serves hosted users from our server.
+        </p>
         <div className="mt-4 overflow-hidden rounded-2xl border border-border bg-card font-mono text-sm shadow-sm">
-          <pre className="overflow-x-auto p-5 text-muted-foreground"><code>{`# Backend (server)
+          <pre className="overflow-x-auto p-5 text-muted-foreground"><code>{`# Backend (server) — holds ALL backend env
 git clone https://github.com/FutureMindsDev/lazydev-server.git
 cd lazydev-server
 cp .env.example .env
 
-# Frontend (client) — in a separate terminal
+# Frontend (client) — in a separate terminal, only API URL
 git clone https://github.com/FutureMindsDev/lazydev-client.git
 cd lazydev-client
 cp .env.example .env`}</code></pre>
         </div>
         <p className="mt-3 text-sm text-muted-foreground">
-          Edit <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.env</code>. The minimum you must fill in:
+          Edit the <strong>server</strong> <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.env</code>. The minimum you must fill in:
         </p>
         <div className="mt-3 overflow-hidden rounded-2xl border border-border bg-card font-mono text-sm shadow-sm">
-          <pre className="overflow-x-auto p-5 text-muted-foreground"><code>{`# GitHub App
+          <pre className="overflow-x-auto p-5 text-muted-foreground"><code>{`# GitHub App (server .env)
 GITHUB_APP_ID=
 GITHUB_WEBHOOK_SECRET=
 GITHUB_PRIVATE_KEY_PATH=github-private-key.pem
 
-# LLM provider (pick one)
-OPENAI_API_KEY=
-LLM_MODEL=gpt-4o-mini`}</code></pre>
+# Tunnel — paste your ngrok authtoken here (Step 5).
+# The Docker ngrok container needs this to come online.
+NGROK_AUTHTOKEN=
+
+# LLM provider — RECOMMENDED: set LLM_CONFIG_ENCRYPTION_KEY
+# and add your key in dashboard → Settings → LLM provider (§2a).
+# Headless / no dashboard? Fill §2b instead:
+# OPENAI_API_KEY=
+# LLM_MODEL=gpt-4o-mini`}</code></pre>
         </div>
         <p className="mt-3 text-sm text-muted-foreground">
-          Everything else has sensible defaults for a Docker deployment.
+          Start with <strong>§2a dashboard BYOK</strong>. Only fill <strong>§2b .env keys</strong> for headless servers or CI.
+          Everything else has sensible Docker defaults — DB, Redis, Qdrant, and worktree paths are already set in Compose.
+          Only fill the <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">[DEV] localhost</code> overrides when running the app locally with <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">npm run start:dev</code>.
         </p>
       </section>
       </Reveal>
@@ -144,11 +163,20 @@ LLM_MODEL=gpt-4o-mini`}</code></pre>
       <Reveal>
         <section className="mt-12">
         <h2 className="text-2xl font-bold">4. Run the full stack</h2>
+        <p className="mt-3 text-sm text-muted-foreground">
+          Run this inside the <strong>server</strong> repo you cloned in Step 2. For the recommended ngrok-in-Docker path,
+          include the <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">tunnel</code> profile so ngrok starts together with the app:
+        </p>
         <div className="mt-4 overflow-hidden rounded-2xl border border-border bg-card font-mono text-sm shadow-sm">
-          <pre className="overflow-x-auto p-5 text-muted-foreground"><code>{`docker compose up -d --build`}</code></pre>
+          <pre className="overflow-x-auto p-5 text-muted-foreground"><code>{`# Recommended: app + ngrok tunnel together
+docker compose --profile tunnel up -d --build
+
+# Only if you run ngrok on your local machine instead (Step 5, Option 2):
+# docker compose up -d --build`}</code></pre>
         </div>
         <p className="mt-3 text-sm text-muted-foreground">
           Use <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">--build</code> the first time and whenever you change source code. For config-only changes, restart without rebuilding.
+          After this, continue to Step 5 to read your ngrok URL and update the GitHub App webhook.
         </p>
         <div className="mt-4 rounded-2xl border border-amber/30 bg-amber/5 p-4 text-sm">
           <p className="font-semibold text-amber">Note: Docker socket access</p>
@@ -162,16 +190,58 @@ LLM_MODEL=gpt-4o-mini`}</code></pre>
       {/* Step 5: webhook tunnel */}
       <Reveal>
         <section className="mt-12">
-        <h2 className="text-2xl font-bold">5. Expose your webhook endpoint</h2>
+        <h2 className="text-2xl font-bold">5. Get your public webhook URL with ngrok</h2>
         <p className="mt-3 text-muted-foreground">
-          GitHub needs a public URL to deliver webhooks. The Compose file ships
-          optional ngrok and Tailscale Funnel tunnels behind a <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">tunnel</code> profile:
+          GitHub can only reach a public URL, so sign up for ngrok, start it, then go back and replace the temporary
+          Webhook URL from Step 1 with the real <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">https://&lt;your-ngrok-url&gt;/webhooks/github</code>.
+          Pick <strong>one</strong> of these two options, do not run both:
         </p>
-        <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-          <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-terracotta" /><span><strong>ngrok</strong> — easiest. Add <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">NGROK_AUTHTOKEN</code> and run <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">docker compose --profile tunnel up -d</code></span></li>
-          <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-terracotta" /><span><strong>Tailscale Funnel</strong> — no third-party endpoint. Add <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">TAILSCALE_AUTH_KEY</code> and uncomment the tailscale block</span></li>
-          <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-terracotta" /><span><strong>Reverse proxy</strong> — Caddy/nginx/Traefik for a real domain in production</span></li>
-        </ul>
+        <div className="mt-4 rounded-2xl border border-border bg-card p-5 shadow-sm">
+          <p className="text-sm font-semibold">First — sign up and get your authtoken (both options)</p>
+          <ol className="mt-2 list-decimal space-y-2 pl-5 text-sm text-muted-foreground">
+            <li>Sign up at <strong>https://dashboard.ngrok.com/signup</strong> and log in.</li>
+            <li>Open <strong>Your Authtoken</strong> (<strong>https://dashboard.ngrok.com/get-started/your-authtoken</strong>) and copy the authtoken shown.</li>
+            <li>Keep this tab open — you will paste the token either into the server <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.env</code> (Option 1) or into your terminal (Option 2).</li>
+          </ol>
+        </div>
+        <div className="mt-4 rounded-2xl border border-border bg-card p-5 shadow-sm">
+          <p className="text-sm font-semibold">Option 1 — Run ngrok as a Docker container (recommended)</p>
+          <p className="mt-2 text-sm text-muted-foreground">
+            The server repo already ships ngrok in Docker. ngrok assigns a <strong>random</strong> address every time it starts,
+            so the Webhook URL does not exist until after you have cloned the server repo and started Docker:
+          </p>
+          <ol className="mt-2 list-decimal space-y-2 pl-5 text-sm text-muted-foreground">
+            <li>Clone the server repo and create the env file (if you have not already in Step 2):
+              <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">git clone https://github.com/FutureMindsDev/lazydev-server.git</code>, then
+              <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">cd lazydev-server</code> and
+              <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">cp .env.example .env</code>.</li>
+            <li>Open the server <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.env</code> and set <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">NGROK_AUTHTOKEN=</code> to the token you copied above. Fill in the GitHub App values you have so far (App ID, webhook secret, private key path) — the webhook secret must match Step 1.</li>
+            <li>Start the server together with ngrok: <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">docker compose --profile tunnel up -d --build</code> (plain <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">docker compose up -d</code> skips the tunnel, so ngrok will never come online).</li>
+            <li>Confirm ngrok is running: <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">docker compose ps</code> should list an <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">ngrok</code> container, then read its public URL: <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">docker compose logs ngrok</code> — look for <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">url=https://&lt;random&gt;.ngrok-free.app</code>.</li>
+            <li>Your webhook URL is <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">https://&lt;random&gt;.ngrok-free.app/webhooks/github</code>. Go back to your GitHub App → <strong>Settings</strong> → <strong>Webhook URL</strong>, replace the temporary placeholder with this real URL, and save.</li>
+            <li>Verify: open a test issue in a monitored repo and check the app logs (<code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">docker compose logs -f app</code>) for the incoming webhook. You can also use the GitHub App&apos;s <strong>Recent Deliveries</strong> → <strong>Redeliver</strong> to re-send an event.</li>
+          </ol>
+          <p className="mt-3 rounded-xl bg-amber/10 p-3 text-xs text-muted-foreground">
+            Free tier gives a random URL on every restart — each restart means repeating step 5 above (update the GitHub App webhook again).
+            Reserve a fixed domain (paid plan) via <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">NGROK_DOMAIN</code> for a stable URL you only set once.
+          </p>
+        </div>
+        <div className="mt-4 rounded-2xl border border-border bg-card p-5 shadow-sm">
+          <p className="text-sm font-semibold">Option 2 — Run ngrok on your local machine (no Docker tunnel)</p>
+          <ol className="mt-2 list-decimal space-y-2 pl-5 text-sm text-muted-foreground">
+            <li>Install ngrok: <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">brew install ngrok</code> (macOS) or download from <strong>https://ngrok.com/download</strong>.</li>
+            <li>Register the token once: <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">ngrok config add-authtoken &lt;your-authtoken&gt;</code>.</li>
+            <li>Leave <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">NGROK_AUTHTOKEN</code> blank in the server <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.env</code> and start Docker <strong>without</strong> the tunnel profile: <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">docker compose up -d</code>.</li>
+            <li>Forward to the app (port 3200): <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">ngrok http 3200</code> — copy the <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">Forwarding https://…</code> URL.</li>
+            <li>Your webhook URL is <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">https://&lt;forwarding-url&gt;/webhooks/github</code> — paste it into the GitHub App settings from Step 1.</li>
+          </ol>
+        </div>
+        <div className="mt-4 rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-4 text-sm">
+          <p className="font-semibold">What LazyDev will NOT do</p>
+          <p className="mt-1 text-muted-foreground">
+            It never merges code and never touches protected branches. Fixes run one job at a time so they cannot overlap — every change arrives as a branch + PR for you to review and approve.
+          </p>
+        </div>
       </section>
       </Reveal>
 
