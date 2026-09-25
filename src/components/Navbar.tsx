@@ -4,7 +4,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 
 const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/how-it-works", label: "How it works" },
+  { href: "/why-lazydev", label: "Why LazyDev" },
   { href: "/get-started", label: "Get started" },
   { href: "/self-host", label: "Self-host" },
   { href: "/hosted", label: "Hosted" },

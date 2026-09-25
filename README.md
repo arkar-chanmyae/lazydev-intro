@@ -112,8 +112,8 @@ service.
 
 | Route | Purpose |
 |---|---|
-| `/` | Landing — hero, what-is, pipeline overview, option chooser, features |
-| `/how-it-works` | Detailed five-stage pipeline walkthrough + MCP tools |
+| `/` | Landing — hero, what-is, why-teaser, option chooser, features |
+| `/why-lazydev` | Why LazyDev is for you: autonomous queue, Serena+RAG grounding, compounding memories |
 | `/get-started` | Side-by-side comparison of self-host vs hosted |
 | `/self-host` | Condensed self-host guide |
 | `/hosted` | Hosted info, what we run, limits, signup CTA |

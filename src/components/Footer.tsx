@@ -28,7 +28,7 @@ export default function Footer() {
             <h3 className="text-sm font-semibold">Pages</h3>
             <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
               <li><Link href="/" className="hover:text-foreground">Home</Link></li>
-              <li><Link href="/how-it-works" className="hover:text-foreground">How it works</Link></li>
+              <li><Link href="/why-lazydev" className="hover:text-foreground">Why LazyDev</Link></li>
               <li><Link href="/get-started" className="hover:text-foreground">Get started</Link></li>
               <li><Link href="/self-host" className="hover:text-foreground">Self-host</Link></li>
               <li><Link href="/hosted" className="hover:text-foreground">Hosted</Link></li>

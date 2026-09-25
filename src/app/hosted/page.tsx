@@ -103,7 +103,7 @@ export default function Hosted() {
               <span className="flex h-8 w-8 items-center justify-center rounded-2xl bg-gradient-to-br from-violet to-violet-soft text-sm font-bold text-white shadow-sm">2</span>
               <h3 className="mt-3 font-semibold">Open issues normally</h3>
               <p className="mt-1 text-sm text-muted-foreground">
-                New issues (opened / reopened) are automatically queued for a fix. LazyDev clones the repo, runs the pipeline, validates the patch, and opens a PR.
+                New issues (opened / reopened) are automatically queued for a fix (one job at a time, so fixes never overlap). LazyDev researches the codebase, validates the patch, and opens a PR — you review and approve.
               </p>
             </StaggerItem>
             <StaggerItem className="rounded-2xl border border-border bg-card p-5 shadow-sm">

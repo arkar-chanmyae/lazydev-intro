@@ -165,10 +165,10 @@ export default function GetStarted() {
             later. The pipeline and PR output are identical either way.
           </p>
           <Link
-            href="/how-it-works"
+            href="/why-lazydev"
             className="mt-6 inline-flex h-11 items-center justify-center rounded-full border border-border bg-card px-5 text-sm font-semibold transition-colors hover:bg-muted"
           >
-            Learn how the pipeline works
+            Why LazyDev is for you
           </Link>
         </div>
       </Reveal>
