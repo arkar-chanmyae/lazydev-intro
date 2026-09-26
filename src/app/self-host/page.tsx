@@ -204,7 +204,6 @@ docker compose --profile tunnel up -d --build
           <ol className="mt-2 list-decimal space-y-2 pl-5 text-sm text-muted-foreground">
             <li>Sign up at <strong>https://dashboard.ngrok.com/signup</strong> and log in.</li>
             <li>Open <strong>Your Authtoken</strong> (<strong>https://dashboard.ngrok.com/get-started/your-authtoken</strong>) and copy the authtoken shown.</li>
-            <li>Keep this tab open — you will paste the token into the server <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.env</code> (Option 1) or into your terminal (Options 2–3).</li>
           </ol>
         </div>
         <div className="mt-4 rounded-2xl border border-border bg-card p-5 shadow-sm">
