@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { FadeIn, Reveal, Stagger, StaggerItem } from "@/components/Animate";
+import { FadeIn, Reveal } from "@/components/Animate";
+import { Steps } from "@/components/Steps";
 
 export const metadata: Metadata = {
   title: "Hosted (we run it for you)",
@@ -91,29 +92,57 @@ export default function Hosted() {
       <Reveal>
         <section className="mt-12">
           <h2 className="text-2xl font-bold">How to use it</h2>
-          <Stagger className="mt-4 space-y-4">
-            <StaggerItem className="rounded-2xl border border-border bg-card p-5 shadow-sm">
-              <span className="flex h-8 w-8 items-center justify-center rounded-2xl bg-gradient-to-br from-violet to-violet-soft text-sm font-bold text-white shadow-sm">1</span>
-              <h3 className="mt-3 font-semibold">Install the GitHub App</h3>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Open <a href="https://github.com/apps/lazydev-issue-resolver" target="_blank" rel="noopener noreferrer" className="text-violet hover:underline">github.com/apps/lazydev-issue-resolver</a>, click Install, and pick the repos LazyDev should monitor.
-              </p>
-            </StaggerItem>
-            <StaggerItem className="rounded-2xl border border-border bg-card p-5 shadow-sm">
-              <span className="flex h-8 w-8 items-center justify-center rounded-2xl bg-gradient-to-br from-violet to-violet-soft text-sm font-bold text-white shadow-sm">2</span>
-              <h3 className="mt-3 font-semibold">Open issues normally</h3>
-              <p className="mt-1 text-sm text-muted-foreground">
-                New issues (opened / reopened) are automatically queued for a fix (one job at a time, so fixes never overlap). LazyDev researches the codebase, validates the patch, and opens a PR — you review and approve.
-              </p>
-            </StaggerItem>
-            <StaggerItem className="rounded-2xl border border-border bg-card p-5 shadow-sm">
-              <span className="flex h-8 w-8 items-center justify-center rounded-2xl bg-gradient-to-br from-violet to-violet-soft text-sm font-bold text-white shadow-sm">3</span>
-              <h3 className="mt-3 font-semibold">(Optional) Connect a chat client</h3>
-              <p className="mt-1 text-sm text-muted-foreground">
-                We send you a personal MCP bearer token. Wire it into Hermes, OpenClaw, or Claude Desktop to trigger fixes manually, request features, and inject feedback.
-              </p>
-            </StaggerItem>
-          </Stagger>
+          <div className="mt-4">
+            <Steps
+              steps={[
+                {
+                  title: "Install the GitHub App",
+                  accent: "violet",
+                  body: (
+                    <>
+                      <p>
+                        Open{" "}
+                        <a
+                          href="https://github.com/apps/lazydev-issue-resolver"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-violet hover:underline"
+                        >
+                          github.com/apps/lazydev-issue-resolver
+                        </a>
+                        , click Install, and pick the repos LazyDev should
+                        monitor. That is everything — new issues are
+                        automatically queued for a fix.
+                      </p>
+                      <p className="mt-2 text-sm">
+                        If we ever request additional permissions, GitHub emails
+                        you an approval request. The app keeps its old
+                        permissions until you accept.
+                      </p>
+                    </>
+                  ),
+                },
+                {
+                  title: "Open issues normally",
+                  accent: "violet",
+                  body: (
+                    <p>
+                      New issues (opened / reopened) are automatically queued for a fix (one job at a time, so fixes never overlap). LazyDev researches the codebase, validates the patch, and opens a PR — you review and approve.
+                    </p>
+                  ),
+                },
+                {
+                  title: "(Optional) Connect a chat client",
+                  accent: "violet",
+                  body: (
+                    <p>
+                      We send you a personal MCP bearer token. Wire it into Hermes, OpenClaw, or Claude Desktop to trigger fixes manually, request features, and inject feedback.
+                    </p>
+                  ),
+                },
+              ]}
+            />
+          </div>
         </section>
       </Reveal>
 

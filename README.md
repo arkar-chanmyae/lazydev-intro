@@ -49,6 +49,23 @@ webhook endpoint. You just review the PRs.
 Not sure which to pick? See the
 [comparison](https://github.com/arkar-chanmyae/lazydev-intro) on the website.
 
+### Two GitHub auth methods (self-hosting)
+
+- **GitHub App (recommended, long-term)** — install the app; the server
+  uses installation tokens and webhooks. Full events, fresh tokens.
+- **GitHub Action thin trigger (quick trial)** — no App install, no
+  webhook tunnel on your repo: add 2 Repository secrets
+  (`LAZYDEV_SERVER_URL`, `LAZYDEV_SHARED_SECRET`) plus 1 workflow file,
+  which dispatches new issues to your warm server (`POST
+  /api/dispatch/issue`). Trial-grade (forwarded `GITHUB_TOKEN`
+  expires with the runner; no `check_run` events yet). Hosted mode is
+  App-only.
+
+Full spec lives in the backend repo (`lazy-issue-resolver`
+`docs/architecture/hybrid-actions-thin-trigger-mode.md`); the
+copy-paste prompt for updating this site is at
+[`docs/session-prompts/new-github-auth-method.md`](./docs/session-prompts/new-github-auth-method.md).
+
 ---
 
 ## How it works
