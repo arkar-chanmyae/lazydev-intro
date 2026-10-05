@@ -121,3 +121,11 @@ html.dark {
   outline-offset: 2px;
   border-radius: 4px;
 }
+
+/* Hidden scrollbar (keeps scrollability) — for modal boxes */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
