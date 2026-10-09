@@ -1,18 +1,31 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
+
+function readStoredTheme(): "light" | "dark" {
+  if (typeof window === "undefined") return "dark";
+  return (window.localStorage.getItem("theme") as "light" | "dark") || "dark";
+}
+
+const subscribeToNoop = () => () => {};
+const getClientSnapshot = () => true;
+const getServerSnapshot = () => false;
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState<"light" | "dark">("dark");
-  const [mounted, setMounted] = useState(false);
+  // False during SSR/hydration, true after — no effect + setState needed.
+  const mounted = useSyncExternalStore(
+    subscribeToNoop,
+    getClientSnapshot,
+    getServerSnapshot,
+  );
+  // Lazy init reads localStorage on first client render, so no
+  // corrective setState inside an effect is needed.
+  const [theme, setTheme] = useState<"light" | "dark">(readStoredTheme);
 
+  // Sync the DOM class only — no setState here.
   useEffect(() => {
-    setMounted(true);
-    const stored = localStorage.getItem("theme");
-    const initial = (stored as "light" | "dark") || "dark";
-    setTheme(initial);
-    document.documentElement.classList.toggle("dark", initial === "dark");
-  }, []);
+    document.documentElement.classList.toggle("dark", theme === "dark");
+  }, [theme]);
 
   const toggle = () => {
     const next = theme === "light" ? "dark" : "light";

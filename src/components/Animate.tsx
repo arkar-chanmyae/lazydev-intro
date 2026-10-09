@@ -39,7 +39,6 @@ export function Stagger({
   className?: string;
   delay?: number;
 }) {
-  const reduce = useReducedMotion();
   return (
     <motion.div
       className={className}
