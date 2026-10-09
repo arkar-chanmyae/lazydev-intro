@@ -19,8 +19,8 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://lazy-issue-resolver-site.vercel.app"),
   title: {
-    default: "LazyDev — AI-native autonomous issue resolver",
-    template: "%s · LazyDev",
+    default: "LazyDev · AI Agent",
+    template: "%s · LazyDev · AI Agent",
   },
   description:
     "LazyDev monitors your GitHub issues, generates validated code fixes with a multi-agent AI pipeline, and opens pull requests automatically. Self-host for free or use our hosted service.",

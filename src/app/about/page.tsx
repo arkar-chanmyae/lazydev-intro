@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { FadeIn, Reveal, Stagger, StaggerItem } from "@/components/Animate";
 
 export const metadata: Metadata = {
