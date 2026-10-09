@@ -41,7 +41,7 @@ export default function SelfHost() {
           <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-terracotta" />Linux (Ubuntu/Debian) server, or macOS/Linux for local dev</li>
           <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-terracotta" />Node.js v20+ (local dev only; Docker image bundles Node)</li>
           <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-terracotta" />Docker &amp; Docker Compose</li>
-          <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-terracotta" />GitHub App credentials (App ID, Private Key, Webhook Secret) — or just a shared secret if you trial with the GitHub Action instead</li>
+          <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-terracotta" />GitHub App credentials (App ID, Private Key, Webhook Secret)</li>
           <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-terracotta" />An LLM API key — or a local Ollama instance (free fallback)</li>
         </ul>
       </section>
@@ -58,20 +58,21 @@ export default function SelfHost() {
             <Steps
               steps={[
                 {
-                  title: "Connect GitHub: App or Action",
+                  title: "Connect GitHub with a GitHub App",
                   accent: "terracotta",
                   body: (
                     <>
                       <p>
-                        Pick <strong>one</strong> of these two ways for LazyDev to hear about your issues. The App is the long-term path; the Action is the quick trial with no App and no webhook tunnel:
+                        Your server hears about your issues through a GitHub App. Create one below, then install it on your repos.
                       </p>
                       <div className="mt-3">
+                        <div className="mx-auto max-w-xl">
                         <OptionCards
                           options={[
                             {
                               id: "connect-app",
                               badge: "Recommended",
-                              title: "Option A — GitHub App",
+                              title: "GitHub App",
                               tagline: "Full events, fresh tokens, best for the long term.",
                               highlights: [
                                 "Issues + check-run events included",
@@ -98,7 +99,7 @@ export default function SelfHost() {
                                       </ul>
                                     </li>
                                     <li>Subscribe to events: <strong>Issues</strong> and <strong>Issue comment</strong> (this tells GitHub which events to send you).</li>
-                                    <li>Click <strong>Create GitHub App</strong>. On the next page, click the link to <strong>generate a private key</strong> — download the <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.pem</code> file, and copy the App ID shown at the top of the page. You will need both in Step 2.</li>
+                                    <li>Click <strong>Create GitHub App</strong>. On the next page, click the link to <strong>generate a private key</strong> — download the <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.pem</code> file, and copy the App ID shown at the top of the page. Then open the <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.pem</code> file and paste its FULL text into the server <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.env</code> as <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">GITHUB_PRIVATE_KEY=&quot;-----BEGIN RSA PRIVATE KEY----- ...&quot;</code> (quoted, with real newlines). You will need both in Step 2.</li>
                                     <li>Install the app on your repos: go to <strong>Settings</strong> → <strong>Developer settings</strong> → <strong>GitHub Apps</strong> → your app → <strong>Install App</strong> → <strong>Install</strong> → choose which repositories LazyDev may work on.</li>
                                   </ol>
                                   <p className="mt-3 rounded-xl bg-amber/10 p-3 text-xs">
@@ -107,39 +108,9 @@ export default function SelfHost() {
                                 </>
                               ),
                             },
-                            {
-                              id: "connect-action",
-                              badge: "No App install",
-                              title: "Option B — GitHub Action dispatch",
-                              tagline: "Trial in minutes — no App, no webhook tunnel.",
-                              highlights: [
-                                "2 repo secrets + 1 workflow file",
-                                "Warm server does all heavy work",
-                                "Trial-grade: use the App long-term",
-                              ],
-                              accent: "amber",
-                              details: (
-                                <>
-                                  <p>
-                                    No App, no tunnel. Your repos send each new issue straight to your
-                                    already-running server: a ~10s workflow file posts the issue to{" "}
-                                    <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">POST /api/dispatch/issue</code>{" "}
-                                    with an HMAC signature plus a short-lived GITHUB_TOKEN. The warm server checks the signature and runs the normal pipeline.
-                                  </p>
-                                  <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm">
-                                    <li>Make the shared password: run <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">openssl rand -hex 32</code> in a terminal and copy the output. This is the secret password your repos will use to prove they are allowed to call your server — keep it private.</li>
-                                    <li>On the server: put it in <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.env</code> as <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">ACTION_SHARED_SECRET=&lt;paste-it-here&gt;</code>. Optionally limit which repos may call you with <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">ACTION_ALLOWED_REPOS=owner/repo,org/*</code>. Then redeploy the server.</li>
-                                    <li>In each user repo, go to Settings → Secrets and variables → Actions → Secrets tab → Repository secrets (not Variables — secrets are encrypted, variables are visible). Add <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">LAZYDEV_SERVER_URL</code> (your server address — the ngrok URL for local trials) and <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">LAZYDEV_SHARED_SECRET</code> (the same password as the server).</li>
-                                    <li>Copy the example workflow from the server repo into your repo at <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.github/workflows/lazydev.yml</code>.</li>
-                                  </ol>
-                                  <p className="mt-3 text-xs">
-                                    Trial-grade: the token dies when the workflow run ends, and CI check_run events are not supported in v1 — switch to Option A for the long term.
-                                  </p>
-                                </>
-                              ),
-                            },
                           ]}
                         />
+                        </div>
                       </div>
                     </>
                   ),
@@ -172,7 +143,9 @@ cp .env.example .env`}</code></pre>
                         <pre className="overflow-x-auto p-5"><code>{`# GitHub App (server .env)
 GITHUB_APP_ID=
 GITHUB_WEBHOOK_SECRET=
-GITHUB_PRIVATE_KEY_PATH=github-private-key.pem
+# Open the downloaded .pem file and paste its FULL text here (quoted, real newlines).
+# There is no file-path mode — never mount *.pem files into Docker.
+GITHUB_PRIVATE_KEY="-----BEGIN RSA PRIVATE KEY----- ..."
 
 # Tunnel — paste your ngrok authtoken here (Step 5).
 # The Docker ngrok container needs this to come online.
@@ -187,7 +160,6 @@ NGROK_AUTHTOKEN=
                       <p className="mt-3 text-sm">
                         Two ways to set your AI key. <strong>§2a (recommended):</strong> put <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">LLM_CONFIG_ENCRYPTION_KEY</code> in <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.env</code>, start the app, then add your key in the dashboard under Settings → LLM provider (it is stored encrypted). <strong>§2b:</strong> only for headless servers with no dashboard — paste the key directly into <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.env</code> instead.
                         Everything else already has working Docker defaults (database, Redis, Qdrant, folders). Touch the <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">[DEV] localhost</code> lines only when running the app on your machine with <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">npm run start:dev</code>.
-                        Trialing with Option B (Action dispatch) instead of an App? Skip the App keys above and set only <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">ACTION_SHARED_SECRET</code> (plus the LLM keys) — details in Step 1.
                       </p>
                     </>
                   ),
@@ -262,7 +234,7 @@ docker compose --profile tunnel up -d --build
                       <p className="text-sm">
                         Your app listens on port <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">3200</code> on your own machine — but GitHub lives on the internet and cannot reach it. A tunnel gives you a public address that forwards to your app. Sign up for ngrok, start a tunnel, then replace the placeholder Webhook URL from Step 1 with your real{" "}
                         <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">https://&lt;your-address&gt;/webhooks/github</code>.
-                        Only needed for Option A (GitHub App) — Option B (Action dispatch) needs no tunnel at all.
+                        The tunnel is needed so the GitHub App webhook can reach your server.
                         Pick <strong>one</strong> of these three options, do not run more than one tunnel at a time:
                       </p>
                       <div className="mt-3 rounded-2xl border border-border bg-background p-4">

@@ -105,13 +105,13 @@ export default function GetStarted() {
         <div className="mt-12 text-center">
           <h2 className="text-2xl font-bold">How should your server connect to GitHub?</h2>
           <p className="mx-auto mt-2 max-w-2xl text-muted-foreground">
-            Self-hosting? Your repos reach your server one of two ways — the
-            App is the long-term path, the Action is the quick trial.
+            Self-hosting? Your server connects to GitHub with a GitHub App.
             (Hosted needs no decision: just install the App.)
           </p>
         </div>
       </Reveal>
       <Reveal className="mt-6">
+        <div className="mx-auto max-w-xl">
         <OptionCards
           options={[
             {
@@ -130,10 +130,16 @@ export default function GetStarted() {
                   <p>
                     Self-host: create your own App (or use the official one) and
                     put <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">GITHUB_APP_ID</code>,{" "}
-                    <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">GITHUB_PRIVATE_KEY_PATH</code> and{" "}
+                    <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">GITHUB_PRIVATE_KEY</code> and{" "}
                     <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">GITHUB_WEBHOOK_SECRET</code> on
                     the server — full steps in the <Link href="/self-host" className="text-terracotta hover:underline">self-host guide</Link>.
                     Hosted: just install our App — see <Link href="/hosted" className="text-terracotta hover:underline">hosted</Link>.
+                  </p>
+                  <p className="mt-3">
+                    Open the downloaded <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.pem</code> file
+                    and paste its FULL text into <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.env</code> as{" "}
+                    <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">GITHUB_PRIVATE_KEY=&quot;-----BEGIN RSA PRIVATE KEY----- ...&quot;</code>{" "}
+                    (quoted, with real newlines). There is no file-path mode — never mount <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">*.pem</code> files into Docker.
                   </p>
                   <p className="mt-3">
                     How it logs in per job: the server mints a fresh 1-hour App installation token each time it needs GitHub (clone, PR). Events covered: issues opened/reopened plus CI check-runs.
@@ -141,61 +147,9 @@ export default function GetStarted() {
                 </>
               ),
             },
-            {
-              id: "auth-action",
-              badge: "No App install",
-              title: "GitHub Action thin trigger",
-              tagline: "2 secrets + 1 file — trial LazyDev with no App and no tunnel.",
-              highlights: [
-                "Runs ~10s in CI, dispatches to your warm server",
-                "HMAC-signed (x-lazydev-signature) + optional repo allowlist",
-                "Trial-grade: token expires with the runner",
-              ],
-              accent: "amber",
-              details: (
-                <>
-                  <ol className="list-decimal space-y-2 pl-5">
-                    <li>
-                      Make the shared password: run{" "}
-                      <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">openssl rand -hex 32</code>{" "}
-                      in a terminal and copy the output. Your repos will use it
-                      to prove they may call your server — keep it private.
-                    </li>
-                    <li>
-                      Server: save it as{" "}
-                      <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">ACTION_SHARED_SECRET</code>{" "}
-                      in <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.env</code>{" "}
-                      (optionally limit callers with{" "}
-                      <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">ACTION_ALLOWED_REPOS=owner/repo,org/*</code>)
-                      and redeploy.
-                    </li>
-                    <li>
-                      User repo → Settings → Secrets and variables → Actions →
-                      Secrets tab → Repository secrets (encrypted — do not use
-                      Variables, those are visible):{" "}
-                      <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">LAZYDEV_SERVER_URL</code>{" "}
-                      (your public server URL — the ngrok URL for local trials)
-                      and{" "}
-                      <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">LAZYDEV_SHARED_SECRET</code>{" "}
-                      (the same password as the server).
-                    </li>
-                    <li>
-                      Copy the example workflow into your repo at{" "}
-                      <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.github/workflows/lazydev.yml</code>.
-                    </li>
-                  </ol>
-                  <p className="mt-3">
-                    On issue opened/reopened (or a /lazydev comment) the workflow
-                    POSTs the event plus a short-lived GITHUB_TOKEN to{" "}
-                    <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">POST /api/dispatch/issue</code>;
-                    the warm server queues the normal BullMQ pipeline. No
-                    check_run events in v1.
-                  </p>
-                </>
-              ),
-            },
           ]}
         />
+        </div>
       </Reveal>
 
       {/* Decision cards */}
