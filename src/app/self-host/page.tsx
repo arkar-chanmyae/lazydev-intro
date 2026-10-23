@@ -12,8 +12,8 @@ export const metadata: Metadata = {
 
 const providers = [
   { name: "OpenAI", url: "(leave blank)", model: "gpt-4o-mini", client: "ChatOpenAI" },
-  { name: "Google Gemini", url: "https://generativelanguage.googleapis.com", model: "gemini-3.7-flash", client: "ChatGoogleGenerativeAI" },
-  { name: "OpenRouter", url: "https://openrouter.ai/api/v1", model: "anthropic/claude-5-sonnet", client: "ChatOpenAI" },
+  { name: "Google Gemini", url: "https://generativelanguage.googleapis.com", model: "gemini-2.5-flash", client: "ChatGoogleGenerativeAI" },
+  { name: "OpenRouter", url: "https://openrouter.ai/api/v1", model: "anthropic/claude-3.5-sonnet", client: "ChatOpenAI" },
   { name: "DeepSeek", url: "https://api.deepseek.com", model: "deepseek-chat", client: "ChatDeepSeek" },
   { name: "Anthropic", url: "https://api.anthropic.com", model: "claude-sonnet-4-5", client: "ChatAnthropic" },
   { name: "Ollama (local, free)", url: "(leave key blank)", model: "llama3", client: "ChatOpenAI" },
@@ -77,7 +77,7 @@ export default function SelfHost() {
                               highlights: [
                                 "Issues + check-run events included",
                                 "Server mints fresh tokens at use time",
-                                "Needs a webhook URL (Step 5)",
+                                "Needs a webhook URL (Step 6)",
                               ],
                               accent: "terracotta",
                               details: (
@@ -88,8 +88,7 @@ export default function SelfHost() {
                                   <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm">
                                     <li>In GitHub, go to <strong>Settings</strong> → <strong>Developer settings</strong> → <strong>GitHub Apps</strong> → <strong>New GitHub App</strong></li>
                                     <li>Set <strong>Homepage URL</strong> to <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">https://github.com/&lt;your-username&gt;/&lt;name-for-your-app&gt;</code>. This is just the public link to your app&apos;s settings page — you will come back here whenever you need to change permissions, keys, or the webhook.</li>
-                                    <li>For <strong>Webhook URL</strong>, enter a temporary placeholder for now. Why: if you run ngrok in Docker (recommended), ngrok only shows its public address <strong>after</strong> you start Docker in Steps 2–4. So finish creating the app first, then replace the placeholder with the real URL in Step 5.</li>
-                                    <li>Set <strong>Webhook URL</strong> to <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">https://placeholder.ngrok-free.app/webhooks/github</code> for now. This is the address GitHub posts events to — each time someone opens an issue, GitHub sends the details there and your LazyDev server picks them up. Then set a <strong>Webhook secret</strong> (any strong random string — you will paste the same value into the server <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.env</code> in Step 2).</li>
+                                    <li>Set <strong>Webhook URL</strong> to <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">https://placeholder.ngrok-free.app/webhooks/github</code> for now. This is the address GitHub posts events to — each time someone opens an issue, GitHub sends the details there and your LazyDev server picks them up. Why a placeholder: if you run ngrok in Docker (recommended), ngrok only shows its public address <strong>after</strong> you start Docker (Step 5), so finish creating the app first and replace this with the real URL in Step 6. Then set a <strong>Webhook secret</strong> (any strong random string) — you will paste the same value into the server <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.env</code> in Step 2 as <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">GITHUB_WEBHOOK_SECRET</code>.</li>
                                     <li>Grant repository permissions (this is what lets LazyDev read code and open PRs):
                                       <ul className="mt-1 list-disc space-y-1 pl-5 text-xs">
                                         <li><strong>Metadata:</strong> Read-only (GitHub requires this for every app)</li>
@@ -99,7 +98,8 @@ export default function SelfHost() {
                                       </ul>
                                     </li>
                                     <li>Subscribe to events: <strong>Issues</strong> and <strong>Issue comment</strong> (this tells GitHub which events to send you).</li>
-                                    <li>Click <strong>Create GitHub App</strong>. On the next page, click the link to <strong>generate a private key</strong> — download the <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.pem</code> file, and copy the App ID shown at the top of the page. Then open the <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.pem</code> file and paste its FULL text into the server <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.env</code> as <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">GITHUB_PRIVATE_KEY=&quot;-----BEGIN RSA PRIVATE KEY----- ...&quot;</code> (quoted, with real newlines). You will need both in Step 2.</li>
+                                    <li>Click <strong>Create GitHub App</strong>. On the next page, copy the <strong>App ID</strong> shown at the top of the page — this is your <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">GITHUB_APP_ID</code> for Step 2.</li>
+                                    <li>Open the <strong>Key pairs</strong> tab on that same page, click the link to <strong>generate a private key</strong>, and download the <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.pem</code> file. Paste its FULL text into the server <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.env</code> as <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">GITHUB_PRIVATE_KEY=&quot;-----BEGIN RSA PRIVATE KEY----- ...&quot;</code> (quoted, with real newlines). You will paste all three — App ID, private key, and the Webhook secret from above (<code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">GITHUB_WEBHOOK_SECRET</code>) — in Step 2.</li>
                                     <li>Install the app on your repos: go to <strong>Settings</strong> → <strong>Developer settings</strong> → <strong>GitHub Apps</strong> → your app → <strong>Install App</strong> → <strong>Install</strong> → choose which repositories LazyDev may work on.</li>
                                   </ol>
                                   <p className="mt-3 rounded-xl bg-amber/10 p-3 text-xs">
@@ -140,14 +140,14 @@ cp .env.example .env`}</code></pre>
                         Edit the <strong>server</strong> <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.env</code>. Fill in at least the block below.
                       </p>
                       <div className="mt-3 overflow-hidden rounded-2xl border border-border bg-background font-mono text-sm">
-                        <pre className="overflow-x-auto p-5"><code>{`# GitHub App (server .env)
+                        <pre className="overflow-x-auto p-5"><code>{`# GitHub App (server .env) — all three values come from Step 1
 GITHUB_APP_ID=
 GITHUB_WEBHOOK_SECRET=
 # Open the downloaded .pem file and paste its FULL text here (quoted, real newlines).
 # There is no file-path mode — never mount *.pem files into Docker.
 GITHUB_PRIVATE_KEY="-----BEGIN RSA PRIVATE KEY----- ..."
 
-# Tunnel — paste your ngrok authtoken here (Step 5).
+# Tunnel — paste your ngrok authtoken here (Step 6).
 # The Docker ngrok container needs this to come online.
 NGROK_AUTHTOKEN=
 
@@ -165,36 +165,109 @@ NGROK_AUTHTOKEN=
                   ),
                 },
                 {
-                  title: "Pick your LLM provider",
+                  title: "Pick your models provider",
                   accent: "terracotta",
                   body: (
                     <>
                       <p className="text-sm">
-                        LazyDev figures out which AI company you mean from <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">OPENAI_BASE_URL</code> — you just give it three values: <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">OPENAI_API_KEY</code> (your key), <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">OPENAI_BASE_URL</code> (the company&apos;s address) and <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">LLM_MODEL</code> (which model). Pick a row:
+                        You give LazyDev the model(s) that do the thinking, plus — if you want — a free extra brain for screening. Pick an option:
                       </p>
-                      <div className="mt-3 overflow-hidden rounded-2xl border border-border">
-                        <table className="w-full text-left text-sm">
-                          <thead className="bg-muted">
-                            <tr>
-                              <th className="px-4 py-3 font-semibold">Provider</th>
-                              <th className="px-4 py-3 font-semibold">Base URL</th>
-                              <th className="px-4 py-3 font-semibold">Example model</th>
-                            </tr>
-                          </thead>
-                          <tbody className="divide-y divide-border bg-card">
-                            {providers.map((p) => (
-                              <tr key={p.name}>
-                                <td className="px-4 py-3 font-medium">{p.name}</td>
-                                <td className="px-4 py-3 font-mono text-xs">{p.url}</td>
-                                <td className="px-4 py-3 font-mono text-xs">{p.model}</td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                      <div className="mt-3">
+                        <div className="mx-auto max-w-xl">
+                          <OptionCards
+                            columns={2}
+                            options={[
+                              {
+                                id: "models-provider",
+                                badge: "Required",
+                                title: "Option A — Main model provider",
+                                tagline: "The AI that reads issues and writes the fixes.",
+                                highlights: [
+                                  "OpenAI, Gemini, OpenRouter, DeepSeek, Anthropic or Ollama",
+                                  "Three env values: key, base URL, model",
+                                  "Per-agent model upgrades supported",
+                                ],
+                                accent: "terracotta",
+                                details: (
+                                  <>
+                                    <p>
+                                      LazyDev figures out which AI company you mean from <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">OPENAI_BASE_URL</code> — you just give it three values: <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">OPENAI_API_KEY</code> (your key), <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">OPENAI_BASE_URL</code> (the company&apos;s address) and <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">LLM_MODEL</code> (which model). Pick a row:
+                                    </p>
+                                    <div className="mt-3 overflow-hidden rounded-2xl border border-border">
+                                      <table className="w-full text-left text-sm">
+                                        <thead className="bg-muted">
+                                          <tr>
+                                            <th className="px-4 py-3 font-semibold">Provider</th>
+                                            <th className="px-4 py-3 font-semibold">Base URL</th>
+                                            <th className="px-4 py-3 font-semibold">Example model</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody className="divide-y divide-border bg-card">
+                                          {providers.map((p) => (
+                                            <tr key={p.name}>
+                                              <td className="px-4 py-3 font-medium">{p.name}</td>
+                                              <td className="px-4 py-3 font-mono text-xs">{p.url}</td>
+                                              <td className="px-4 py-3 font-mono text-xs">{p.model}</td>
+                                            </tr>
+                                          ))}
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                    <p className="mt-3 text-sm">
+                                      Want one part of the pipeline (say, the code writer) on a stronger or cheaper model than the rest? Give that agent its own trio: <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">&lt;AGENT&gt;_MODEL</code>, <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">&lt;AGENT&gt;_API_KEY</code>, <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">&lt;AGENT&gt;_BASE_URL</code>.
+                                    </p>
+                                  </>
+                                ),
+                              },
+                              {
+                                id: "system-one-guard",
+                                badge: "Optional",
+                                title: "Option B — System One guard (Clef)",
+                                tagline: "A free second brain that screens incoming issues.",
+                                highlights: [
+                                  "Runs on Cloudflare Workers AI (free tier)",
+                                  "Catches prompt injection in issue text",
+                                  "Fail-safe: falls back to regex-only",
+                                ],
+                                accent: "violet",
+                                details: (
+                                  <>
+                                    <p>
+                                      Skip this if you just want to get running — it is entirely optional. Clef is a free decision model running on Cloudflare Workers AI that acts as your server&apos;s &quot;System One&quot;: a fast, low-cost second brain that screens every incoming issue <em>before</em> the main AI agent touches it. Because anyone on the internet can open an issue in your repo, a malicious issue can try to hijack your AI agent with hidden instructions (prompt injection). Clef scores each issue&apos;s text; highly suspicious issues are blocked or quarantined and Discord-alerted to you — they are never queued for the agent. It runs on Workers AI&apos;s free tier (10,000 Neurons/day, no credit card), so it costs nothing.
+                                    </p>
+                                    <div className="mt-3 rounded-2xl border border-border bg-background p-4">
+                                      <p className="text-sm font-semibold">Where to get your two Cloudflare values</p>
+                                      <ol className="mt-2 list-decimal space-y-2 pl-5 text-sm">
+                                        <li>
+                                          <strong>Account ID:</strong> log in at <strong>https://dash.cloudflare.com</strong> and select your account. In the left sidebar go to <strong>Workers &amp; Pages</strong> — the right sidebar shows <strong>Account details</strong> with an <strong>Account ID</strong> at the top. Copy it.
+                                        </li>
+                                        <li>
+                                          <strong>API token:</strong> click the person icon (top-right) → <strong>My Profile</strong> → <strong>API Tokens</strong> → <strong>Create Token</strong> → <strong>Create Custom Token</strong>. Set Permission to <strong>Account → Workers AI → Edit</strong>, set Account Resources to <strong>Include → your account</strong>, then <strong>Continue to summary</strong> → <strong>Create Token</strong> and copy it once — it is never shown again.
+                                        </li>
+                                      </ol>
+                                    </div>
+                                    <p className="mt-3 text-sm">
+                                      Put both values plus the switch into the server <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.env</code> from Step 2:
+                                    </p>
+                                    <div className="mt-3 overflow-hidden rounded-2xl border border-border bg-background font-mono text-sm">
+                                      <pre className="overflow-x-auto p-5"><code>{`# System One guard — enable the Clef layer
+PROMPT_GUARD_CLEF_ENABLED=true
+CLOUDFLARE_ACCOUNT_ID=<your-account-id>
+CLOUDFLARE_API_TOKEN=<your-token>
+
+# Optional: pick the Clef model (default is the fast one)
+# PROMPT_GUARD_MODEL=clef-flash   # or: clef (27B, also reads screenshots in issues)`}</code></pre>
+                                    </div>
+                                    <p className="mt-3 text-sm rounded-xl bg-amber/10 p-3 text-xs">
+                                      If Clef credentials are missing or the model call fails, the guard fails safe: issues fall back to the built-in regex screening (Layer 0, always on) and the webhook is never stuck. Nothing here can surprise you with a Cloudflare bill on the free tier.
+                                    </p>
+                                  </>
+                                ),
+                              },
+                            ]}
+                          />
+                        </div>
                       </div>
-                      <p className="mt-3 text-sm">
-                        Want one part of the pipeline (say, the code writer) on a stronger or cheaper model than the rest? Give that agent its own trio: <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">&lt;AGENT&gt;_MODEL</code>, <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">&lt;AGENT&gt;_API_KEY</code>, <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">&lt;AGENT&gt;_BASE_URL</code>.
-                      </p>
                     </>
                   ),
                 },
@@ -210,17 +283,17 @@ NGROK_AUTHTOKEN=
                         <pre className="overflow-x-auto p-5"><code>{`# Recommended: app + ngrok tunnel together
 docker compose --profile tunnel up -d --build
 
-# Only if you run ngrok on your local machine instead (Step 5, Option 2):
+# Only if you run ngrok on your local machine instead (Step 6, Option 2):
 # docker compose up -d --build`}</code></pre>
                       </div>
                       <p className="mt-3 text-sm">
                         Use <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">--build</code> the first time and whenever you edit code. If you only changed settings (<code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.env</code>), restart without it.
-                        Next: Step 5 shows you how to read your ngrok address and paste it into the GitHub App.
+                        Next: Step 6 shows you how to read your ngrok address and paste it into the GitHub App.
                       </p>
-                      <div className="mt-3 rounded-2xl border border-amber/30 bg-amber/5 p-4 text-sm">
-                        <p className="font-semibold text-amber">Note: Docker socket access</p>
-                        <p className="mt-1">
-                          The app container needs <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">/var/run/docker.sock</code> — that is how the sandbox spins up throwaway containers to test each fix. Anyone with access to that socket controls Docker on your machine, so keep the host secured.
+                      <div className="mt-3 rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-4 text-sm">
+                        <p className="font-semibold">Note: Docker socket access (handled for you)</p>
+                        <p className="mt-1 text-sm">
+                          The sandbox needs Docker to spin up throwaway containers that test each fix — but the app container <strong>never touches the raw</strong> <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">/var/run/docker.sock</code>. Instead, a read-only <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">socket-proxy</code> sidecar (<code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">tecnativa/docker-socket-proxy</code>) holds the host socket and only passes through the handful of Docker commands the app is allowed to run. The app talks to it over the internal network: <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">DOCKER_HOST=tcp://socket-proxy:2375</code>. Keeping your host machine itself backed up and secured is still sensible — anyone with full host access controls everything, Docker included.
                         </p>
                       </div>
                     </>
@@ -268,8 +341,8 @@ docker compose --profile tunnel up -d --build
                                   </p>
                                   <ol className="mt-3 list-decimal space-y-2 pl-5">
                                     <li>In the server <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.env</code>, set <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">NGROK_AUTHTOKEN=&lt;your-authtoken&gt;</code>. Want the same address every time? That needs a paid ngrok plan — then also set <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">NGROK_DOMAIN=&lt;your-reserved-domain&gt;</code>.</li>
-                                    <li>Uncomment the <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">ngrok:</code> section in <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">docker-compose.yml</code> (it ships commented out).</li>
-                                    <li>Start <strong>with</strong> the tunnel profile: <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">docker compose --profile tunnel up -d</code>. Plain <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">up -d</code> skips ngrok, so it would never come online.</li>
+                                    <li>Nothing to uncomment: the server repo ships the <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">ngrok:</code> section ready in <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">docker-compose.yml</code> behind the <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">tunnel</code> profile.</li>
+                                    <li>Start <strong>with</strong> the tunnel profile: <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">docker compose --profile tunnel up -d --build</code>. Plain <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">up -d</code> skips ngrok, so it would never come online.</li>
                                     <li>Read your address: <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">docker compose logs ngrok | grep Forwarding</code> — look for <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">url=https://&lt;random&gt;.ngrok-free.app</code>.</li>
                                     <li>Your webhook URL is that address plus <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">/webhooks/github</code> at the end — paste it over the placeholder in your GitHub App settings (Step 1).</li>
                                   </ol>
