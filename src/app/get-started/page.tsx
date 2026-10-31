@@ -51,6 +51,16 @@ const comparison = [
     hosted: "Personal bearer token provided",
   },
   {
+    feature: "System One guard (Clef)",
+    selfHost: "Optional — add Cloudflare credentials to .env",
+    hosted: "Included (we manage the credentials)",
+  },
+  {
+    feature: "Pipeline gates + verdicts",
+    selfHost: "Included — triage, patch, validation gates with run-detail banners",
+    hosted: "Included",
+  },
+  {
     feature: "Setup time",
     selfHost: "~30 min (Docker + env + tunnel)",
     hosted: "~2 min (install the App)",
