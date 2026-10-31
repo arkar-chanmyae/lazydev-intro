@@ -53,6 +53,22 @@ const features = [
     title: "Multi-LLM support",
     desc: "OpenAI, Gemini, Anthropic, DeepSeek, OpenRouter, or local Ollama — your choice.",
   },
+  {
+    title: "System One guard (Clef)",
+    desc: "Free Cloudflare Workers AI screens every issue for prompt injection before the agent sees it.",
+  },
+  {
+    title: "Pipeline gates",
+    desc: "Triage, patch, and validation gates quarantine risky jobs — human approval unblocks.",
+  },
+  {
+    title: "Gate verdicts on run detail",
+    desc: "Dashboard shows exactly why a job was stopped or flagged (risk level, reasons, gate name).",
+  },
+  {
+    title: "App-only security",
+    desc: "No GitHub Actions thin-trigger — GitHub App auth across webhook, sandbox, and infra.",
+  },
 ];
 
 export default function Home() {
@@ -129,12 +145,15 @@ export default function Home() {
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
               What is LazyDev?
             </h2>
-            <p className="mt-4 text-lg text-muted-foreground">
+            <p className="mt-4 text-muted-foreground">
               LazyDev is an AI-native autonomous CI engineering assistant. When a
               GitHub issue is opened in a monitored repository, LazyDev clones the
               repo, runs a multi-agent LangGraph pipeline to understand and fix the
               problem, validates the patch in an isolated sandbox, and opens a pull
-              request — all without human intervention.
+              request — all without human intervention. A System One guard (Clef)
+              screens every issue for prompt injection before the agent sees it,
+              and pipeline gates (triage, patch, validation) quarantine risky jobs
+              with clear verdicts shown on the run detail page.
             </p>
             <p className="mt-4 text-muted-foreground">
               You can also drive it manually from any MCP-capable chat platform:
@@ -173,7 +192,10 @@ PR #43: "Fix: resolve issue #42"`}</code></pre>
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
               It runs itself from issue to pull request, grounds every fix with
-              Serena MCP + RAG, and gets smarter the longer you use it.
+              Serena MCP + RAG, and gets smarter the longer you use it. System One
+              guard (Clef) catches prompt injection, pipeline gates quarantine
+              risky jobs, and gate verdicts show exactly why on the run detail
+              page.
             </p>
           </Reveal>
 
