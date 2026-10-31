@@ -45,8 +45,8 @@ const projects = [
     tagline: "Autonomous CI Developer & Issue Resolver",
     category: "Developer Automation",
     description:
-      "A 5-stage multi-agent LangGraph pipeline that monitors repository issues, reproduces bugs in isolated Docker sandboxes, formulates plans, writes code, and issues pull requests automatically.",
-    tech: ["LangGraph", "NestJS", "Docker Sandboxes", "PostgreSQL", "Redis", "Qdrant"],
+      "A 5-stage multi-agent LangGraph pipeline (Onboarding → Planner → PatchGenerator → Validation → Git) that monitors repository issues, reproduces bugs in isolated Docker sandboxes, formulates plans, writes code, and issues pull requests automatically. Includes a System One guard (Clef on Cloudflare Workers AI) that screens for prompt injection, three pipeline gates (triage, patch, validation) that quarantine risky jobs with gate verdicts on run detail, per-agent model selection, and human feedback via MCP.",
+    tech: ["LangGraph", "NestJS", "Docker Sandboxes", "PostgreSQL", "Redis", "Qdrant", "Clef (Workers AI)"],
     links: [
       { label: "Server", url: "https://github.com/FutureMindsDev/lazydev-server" },
       { label: "Desktop Client", url: "https://github.com/FutureMindsDev/lazydev-client" },

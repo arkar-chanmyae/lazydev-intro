@@ -37,6 +37,20 @@ const reasons = [
   },
   {
     n: "03",
+    name: "Security built in",
+    title: "System One guard + pipeline gates",
+    desc: "Every issue passes through a free Clef model on Cloudflare Workers AI (System One) that screens for prompt injection and exfiltration attempts before the main agent sees it. Three pipeline gates — triage, patch safety, validation — each quarantine risky jobs with clear verdicts. Human approval from the dashboard or MCP chat unblocks instantly.",
+    points: [
+      "Clef on Workers AI free tier (10K Neurons/day) — no card, no surprise bills",
+      "Two-layer screening: regex patterns (always on) + Clef decision model (optional)",
+      "Triage gate classifies issue kind, complexity, and whether human review is needed",
+      "Patch gate detects dependency changes, protected paths, and security-sensitive edits",
+      "Validation gate classifies failure types (test, type, lint, env, missing dep) and routes accordingly",
+      "Gate verdicts on run detail: stoppedBy, decision, risk level, plain-words reason",
+    ],
+  },
+  {
+    n: "04",
     name: "Gets smarter the longer you use it",
     title: "Serena memories compound",
     desc: "LazyDev keeps two long-lived project memories: the central repository structure and conventions, and the issues faced plus approaches tried — what worked and what did not. Each run reads them, each successful run updates them, and they are versioned alongside your code so future issues get better decisions.",
@@ -56,8 +70,9 @@ export default function WhyLazyDev() {
       <FadeIn className="text-center">
         <h1 className="text-4xl font-bold tracking-tight">Why LazyDev is for you</h1>
         <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
-          Three reasons teams keep it installed: it runs itself safely, its
-          fixes are grounded instead of guessed, and it learns your repo over
+          Four reasons teams keep it installed: it runs itself safely, its
+          fixes are grounded instead of guessed, security is built in with
+          System One guard + pipeline gates, and it learns your repo over
           time.
         </p>
       </FadeIn>
@@ -101,8 +116,11 @@ export default function WhyLazyDev() {
             Under the hood it is a multi-agent pipeline (Onboarding → Planner →
             PatchGenerator → Validation → Git) with BullMQ + Redis queue,
             Redlock per repo/branch, Qdrant RAG, Serena MCP sidecar, and Docker
-            sandbox validation. You can also drive it manually from chat with
-            MCP tools like <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">trigger_issue_fix</code>,{" "}
+            sandbox validation. Three pipeline gates (triage, patch, validation)
+            and a System One guard (Clef on Cloudflare Workers AI) quarantine
+            risky jobs with gate verdicts shown on run detail. You can also drive
+            it manually from chat with MCP tools like
+            <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">trigger_issue_fix</code>,{" "}
             <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">implement_new_feature</code>,{" "}
             <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">get_pipeline_status</code>, and{" "}
             <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">provide_human_feedback</code>.
