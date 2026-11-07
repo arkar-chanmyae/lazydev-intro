@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { FadeIn, Reveal, Stagger, StaggerItem } from "@/components/Animate";
-import { OptionCards } from "@/components/OptionCards";
 
 export const metadata: Metadata = {
   title: "Get started",
@@ -110,57 +109,6 @@ export default function GetStarted() {
         </table>
       </Reveal>
 
-      {/* Decision cards */}
-      <Reveal>
-        <div className="mt-12 text-center">
-          <h2 className="text-2xl font-bold">How should your server connect to GitHub?</h2>
-          <p className="mx-auto mt-2 max-w-2xl text-muted-foreground">
-            Self-hosting? Your server connects to GitHub with a GitHub App.
-            (Hosted needs no decision: just install the App.)
-          </p>
-        </div>
-      </Reveal>
-      <Reveal className="mt-6">
-        <div className="mx-auto max-w-xl">
-        <OptionCards
-          options={[
-            {
-              id: "auth-app",
-              badge: "Recommended",
-              title: "GitHub App",
-              tagline: "Install once — full events, fresh tokens, zero per-repo setup.",
-              highlights: [
-                "Issues + check-run events included",
-                "Server mints fresh 1h tokens at use time",
-                "Works with webhooks on self-host or hosted",
-              ],
-              accent: "violet",
-              details: (
-                <>
-                  <p>
-                    Self-host: create your own App (or use the official one) and
-                    put <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">GITHUB_APP_ID</code>,{" "}
-                    <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">GITHUB_PRIVATE_KEY</code> and{" "}
-                    <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">GITHUB_WEBHOOK_SECRET</code> on
-                    the server — full steps in the <Link href="/self-host" className="text-terracotta hover:underline">self-host guide</Link>.
-                    Hosted: just install our App — see <Link href="/hosted" className="text-terracotta hover:underline">hosted</Link>.
-                  </p>
-                  <p className="mt-3">
-                    Open the downloaded <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.pem</code> file
-                    and paste its FULL text into <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">.env</code> as{" "}
-                    <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">GITHUB_PRIVATE_KEY=&quot;-----BEGIN RSA PRIVATE KEY----- ...&quot;</code>{" "}
-                    (quoted, with real newlines). There is no file-path mode — never mount <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">*.pem</code> files into Docker.
-                  </p>
-                  <p className="mt-3">
-                    How it logs in per job: the server mints a fresh 1-hour App installation token each time it needs GitHub (clone, PR). Events covered: issues opened/reopened plus CI check-runs.
-                  </p>
-                </>
-              ),
-            },
-          ]}
-        />
-        </div>
-      </Reveal>
 
       {/* Decision cards */}
       <Stagger className="mt-12 grid gap-6 md:grid-cols-2">
